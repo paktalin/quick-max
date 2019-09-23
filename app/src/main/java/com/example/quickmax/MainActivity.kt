@@ -28,8 +28,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processAnswer(answer: Int) {
-        if (numberSet.isCorrect(answer))
+        if (numberSet.isCorrect(answer)) {
+
             response.text = getString(R.string.response_correct)
+        }
         else
             response.text = getString(R.string.response_wrong)
     }
