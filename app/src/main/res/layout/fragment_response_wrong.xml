@@ -11,7 +11,6 @@
     app:layout_constraintStart_toStartOf="parent">
 
     <ImageButton
-        android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -25,7 +24,6 @@
         app:srcCompat="@drawable/ic_double_arrow" />
 
     <TextView
-        android:id="@+id/response"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"

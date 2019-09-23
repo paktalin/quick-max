@@ -12,17 +12,15 @@ import androidx.core.view.get
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.UiController
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import junit.framework.Assert.assertTrue
 import org.hamcrest.Matcher
 import org.junit.Before
-
 
 class MainActivityTest {
     @get:Rule
     val testRule = ActivityTestRule<MainActivity>(MainActivity::class.java)
     private lateinit var radioGroup: RadioGroup
-
 
     @Before
     fun init() {
@@ -34,7 +32,9 @@ class MainActivityTest {
         val correctAnswerIndex = getCorrectAnswerIndex()
         val correctAnswerId = radioGroup[correctAnswerIndex].id
         onView(withId(correctAnswerId)).perform(click())
-        onView(withId(R.id.response)).check(matches(withText(R.string.response_correct)))
+
+        assertTrue(testRule.activity.supportFragmentManager.fragments.size == 1)
+        assertTrue(testRule.activity.supportFragmentManager.fragments[0] is ResponseCorrectFragment)
     }
 
     @Test
@@ -43,8 +43,19 @@ class MainActivityTest {
         val wrongAnswerIndex = if (correctAnswerIndex == 3) 2 else 3
         val wrongAnswerId = radioGroup[wrongAnswerIndex].id
         onView(withId(wrongAnswerId)).perform(click())
-        onView(withId(R.id.response)).check(matches(withText(R.string.response_wrong)))
+
+        assertTrue(testRule.activity.supportFragmentManager.fragments.size == 1)
+        assertTrue(testRule.activity.supportFragmentManager.fragments[0] is ResponseWrongFragment)
     }
+
+    @Test
+    fun only_fist_answer_accepted() {
+        onView(withId(radioGroup[0].id)).perform(click())
+        assertTrue(testRule.activity.supportFragmentManager.fragments.size == 1)
+        onView(withId(radioGroup[1].id)).perform(click())
+        assertTrue(testRule.activity.supportFragmentManager.fragments.size == 1)
+    }
+
 
     private fun getCorrectAnswerIndex(): Int {
         val options = getOptions()

@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     var numberSet = NumberSet(4, 3)
+    private var toAcceptAnswer = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processAnswer(answer: Int) {
+        if (!toAcceptAnswer)
+            return
+        toAcceptAnswer = false
         val responseFragment:Fragment = if (numberSet.isCorrect(answer)) {
             ResponseCorrectFragment.newInstance()
         } else
