@@ -12,6 +12,7 @@ import androidx.core.view.get
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.UiController
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertTrue
@@ -33,9 +34,8 @@ class MainActivityTest {
         val correctAnswerIndex = getCorrectAnswerIndex()
         val correctAnswerId = radioGroup[correctAnswerIndex].id
         onView(withId(correctAnswerId)).perform(click())
-
-        assertTrue(testRule.activity.supportFragmentManager.fragments.size == 1)
-        assertTrue(testRule.activity.supportFragmentManager.fragments[0] is ResponseCorrectFragment)
+        onView(withId(R.id.tv_response))
+            .check(matches(withText(testRule.activity.resources.getString(R.string.response_correct))))
     }
 
     @Test
@@ -44,9 +44,8 @@ class MainActivityTest {
         val wrongAnswerIndex = if (correctAnswerIndex == 3) 2 else 3
         val wrongAnswerId = radioGroup[wrongAnswerIndex].id
         onView(withId(wrongAnswerId)).perform(click())
-
-        assertTrue(testRule.activity.supportFragmentManager.fragments.size == 1)
-        assertTrue(testRule.activity.supportFragmentManager.fragments[0] is ResponseWrongFragment)
+        onView(withId(R.id.tv_response))
+            .check(matches(withText(testRule.activity.resources.getString(R.string.response_wrong))))
     }
 
     @Test

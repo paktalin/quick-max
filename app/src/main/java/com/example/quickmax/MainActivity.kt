@@ -34,10 +34,9 @@ class MainActivity : AppCompatActivity() {
         timer.cancel()
         makeRadioButtonsUncheckable()
 
-        val responseFragment: Fragment = if (numberSet.isCorrect(answer)) {
-            ResponseCorrectFragment.newInstance()
-        } else
-            ResponseWrongFragment.newInstance()
+        val responseFragment = ResponseFragment.newInstance().also {
+                    f -> f.arguments = Bundle().also {
+                    b -> b.putBoolean("correct", numberSet.isCorrect(answer))  } }
 
         supportFragmentManager
             .beginTransaction()
