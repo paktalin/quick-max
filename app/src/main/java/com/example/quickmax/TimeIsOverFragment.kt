@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 
 class TimeIsOverFragment: Fragment() {
@@ -16,6 +17,8 @@ class TimeIsOverFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_time_is_over, container, false)
+        val view = inflater.inflate(R.layout.fragment_time_is_over, container, false)
+        view.findViewById<ImageButton>(R.id.btn_next).setOnClickListener { (activity as MainActivity).reload() }
+        return view
     }
 }

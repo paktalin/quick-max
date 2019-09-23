@@ -50,6 +50,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun reload() {
+        val intent = intent
+        finish()
+        startActivity(intent)
+    }
+
     private val timer = object : CountDownTimer(4000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
             tv_time_left.text = (millisUntilFinished / 1000).toString()

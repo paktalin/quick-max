@@ -35,13 +35,7 @@ class ResponseFragment: Fragment() {
     private fun view(view: View, color: Int, responseId: Int): View {
         view.findViewById<TextView>(R.id.tv_response).text = resources.getString(responseId)
         view.findViewById<ConstraintLayout>(R.id.response_layout).setBackgroundColor(color)
-        view.findViewById<ImageButton>(R.id.btn_next).setOnClickListener { reloadActivity() }
+        view.findViewById<ImageButton>(R.id.btn_next).setOnClickListener { (activity as MainActivity).reload() }
         return view
-    }
-
-    private fun reloadActivity() {
-        val intent = activity?.intent
-        activity?.finish()
-        activity?.startActivity(intent)
     }
 }
