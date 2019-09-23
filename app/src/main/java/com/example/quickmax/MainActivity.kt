@@ -17,23 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         addRadioButtons()
-        setTimer()
-    }
-
-    private fun setTimer() {
-        object : CountDownTimer(4000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                tv_time_left.text = (millisUntilFinished / 1000).toString()
-            }
-
-            override fun onFinish() {
-                makeRadioButtonsUncheckable()
-                supportFragmentManager
-                    .beginTransaction()
-                    .add(R.id.main_layout, TimeIsOverFragment.newInstance(), "time_is_over")
-                    .commitAllowingStateLoss()
-            }
-        }.start()
+        timer.start()
     }
 
     private fun addRadioButtons() {
@@ -47,6 +31,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processAnswer(answer: Int) {
+        timer.cancel()
+        makeRadioButtonsUncheckable()
+
         val responseFragment: Fragment = if (numberSet.isCorrect(answer)) {
             ResponseCorrectFragment.newInstance()
         } else
@@ -56,12 +43,25 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .add(R.id.main_layout, responseFragment, "response")
             .commitAllowingStateLoss()
-        makeRadioButtonsUncheckable()
     }
 
     private fun makeRadioButtonsUncheckable() {
         for (i in 0 until radio_group.childCount) {
             radio_group[i].isClickable = false
+        }
+    }
+
+    private val timer = object : CountDownTimer(4000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            tv_time_left.text = (millisUntilFinished / 1000).toString()
+        }
+
+        override fun onFinish() {
+            makeRadioButtonsUncheckable()
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.main_layout, TimeIsOverFragment.newInstance(), "time_is_over")
+                .commitAllowingStateLoss()
         }
     }
 }
