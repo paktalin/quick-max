@@ -1,12 +1,12 @@
 package com.example.quickmax
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
-import android.os.CountDownTimer
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,14 +22,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTimer() {
-        object : CountDownTimer(3000, 500) {
+        object : CountDownTimer(3000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
-                tv_time_left.text = (millisUntilFinished / 1000.0).toString()
+                tv_time_left.text = (millisUntilFinished / 1000).toString()
             }
 
             override fun onFinish() {
-                tv_time_left.text = "OVER"
+                supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.main_layout, TimeIsOverFragment.newInstance(), "time_is_over")
+                    .commitAllowingStateLoss()
             }
         }.start()
     }
@@ -48,14 +51,14 @@ class MainActivity : AppCompatActivity() {
         if (!toAcceptAnswer)
             return
         toAcceptAnswer = false
-        val responseFragment:Fragment = if (numberSet.isCorrect(answer)) {
+        val responseFragment: Fragment = if (numberSet.isCorrect(answer)) {
             ResponseCorrectFragment.newInstance()
         } else
             ResponseWrongFragment.newInstance()
 
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.main_layout, responseFragment)
-            .commit()
+            .add(R.id.main_layout, responseFragment, "response")
+            .commitAllowingStateLoss()
     }
 }

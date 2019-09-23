@@ -13,6 +13,7 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.UiController
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.*
+import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertTrue
 import org.hamcrest.Matcher
 import org.junit.Before
@@ -57,8 +58,18 @@ class MainActivityTest {
     }
 
     @Test
-    fun timer() {
-        // TODO write test
+    fun time_decreases() {
+        val time1 = getText(withId(R.id.tv_time_left)).toInt()
+        Thread.sleep(1000)
+        val time2 = getText(withId(R.id.tv_time_left)).toInt()
+        assertTrue(time2 < time1)
+    }
+
+    @Test
+    fun fragment_when_time_is_over() {
+        Thread.sleep(3000)
+        assertNotNull(testRule.activity.supportFragmentManager.fragments.find {
+                f -> f is TimeIsOverFragment })
     }
 
     private fun getCorrectAnswerIndex(): Int {
