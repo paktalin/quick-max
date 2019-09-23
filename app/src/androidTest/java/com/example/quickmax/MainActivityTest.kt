@@ -56,6 +56,10 @@ class MainActivityTest {
         assertTrue(testRule.activity.supportFragmentManager.fragments.size == 1)
     }
 
+    @Test
+    fun timer() {
+        // TODO write test
+    }
 
     private fun getCorrectAnswerIndex(): Int {
         val options = getOptions()

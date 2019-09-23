@@ -6,6 +6,7 @@ import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
+import android.os.CountDownTimer
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +18,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         addRadioButtons()
+        setTimer()
+    }
+
+    private fun setTimer() {
+        object : CountDownTimer(3000, 500) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                tv_time_left.text = (millisUntilFinished / 1000.0).toString()
+            }
+
+            override fun onFinish() {
+                tv_time_left.text = "OVER"
+            }
+        }.start()
     }
 
     private fun addRadioButtons() {
