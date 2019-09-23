@@ -3,4 +3,5 @@
     <string name="second_max">Выберите второе наибольшее число</string>
     <string name="response_correct">CORRECT</string>
     <string name="response_wrong">WRONG</string>
+    <string name="time_is_over">TIME IS OVER</string>
 </resources>

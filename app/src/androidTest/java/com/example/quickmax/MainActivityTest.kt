@@ -67,7 +67,7 @@ class MainActivityTest {
 
     @Test
     fun fragment_when_time_is_over() {
-        Thread.sleep(3000)
+        Thread.sleep(4000)
         assertNotNull(testRule.activity.supportFragmentManager.fragments.find {
                 f -> f is TimeIsOverFragment })
     }
