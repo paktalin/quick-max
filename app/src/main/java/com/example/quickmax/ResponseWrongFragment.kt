@@ -6,18 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
-class ResponseFragment: Fragment() {
-    companion object {
+class ResponseWrongFragment: Fragment() {
 
-        fun newInstance(): ResponseFragment {
-            return ResponseFragment()
+    companion object {
+        fun newInstance(): ResponseWrongFragment {
+            return ResponseWrongFragment()
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_response, container, false)
+        return inflater.inflate(R.layout.fragment_response_wrong, container, false)
     }
-
 }

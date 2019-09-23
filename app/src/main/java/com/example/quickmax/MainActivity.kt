@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -28,11 +29,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processAnswer(answer: Int) {
-        if (numberSet.isCorrect(answer)) {
+        val responseFragment:Fragment = if (numberSet.isCorrect(answer)) {
+            ResponseCorrectFragment.newInstance()
+        } else
+            ResponseWrongFragment.newInstance()
 
-            response.text = getString(R.string.response_correct)
-        }
-        else
-            response.text = getString(R.string.response_wrong)
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.main_layout, responseFragment)
+            .commit()
     }
 }
