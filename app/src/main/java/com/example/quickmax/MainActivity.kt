@@ -2,25 +2,23 @@ package com.example.quickmax
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.View
 import android.widget.Button
-import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var answerSet = AnswerSet(4)
+    private lateinit var answerSet: AnswerSet
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        addRadioButtons()
+        answerSet = AnswerSet(3)
+        setUpAnswerButtons()
         timer.start()
     }
 
-    private fun addRadioButtons() {
+    private fun setUpAnswerButtons() {
         for (answer in answerSet) {
             findViewById<Button>(answer.buttonId).text = answer.value.toString()
             findViewById<Button>(answer.buttonId).setOnClickListener { processAnswer(answer.correct) }

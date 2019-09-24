@@ -9,14 +9,14 @@ fun generateRandom(numDigits: Int): Int {
 }
 
 fun generateNRandomNumbers(numDigits: Int, n: Int): Set<Int> {
-    val randomNumbers = setOf<Int>()
+    val randomNumbers = mutableSetOf<Int>()
     while (randomNumbers.size < n) {
-        randomNumbers.plus(generateRandom(numDigits))
+        randomNumbers.add(generateRandom(numDigits))
     }
     return randomNumbers
 }
 
-fun findSecondMax(numbers: List<Int>): Int {
+fun findSecondMax(numbers: Collection<Int>): Int {
     var firstMax = 0
     var secondMax = 0
 
