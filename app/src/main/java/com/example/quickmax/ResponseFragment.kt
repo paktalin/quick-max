@@ -1,6 +1,5 @@
 package com.example.quickmax
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
 class ResponseFragment: Fragment() {
-
-    private val greenColor = Color.parseColor("#4CAF50")
-    private val redColor = Color.parseColor("#F44336")
 
     companion object {
         fun newInstance(): ResponseFragment {
@@ -27,9 +24,9 @@ class ResponseFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_response, container, false)
         val correct = arguments!!.getBoolean("correct")
         return if (correct)
-            view(view, greenColor, R.string.response_correct)
+            view(view, ContextCompat.getColor(activity!!, R.color.gradient_light), R.string.response_correct)
         else
-            view(view, redColor, R.string.response_wrong)
+            view(view, ContextCompat.getColor(activity!!, R.color.gradient_dark), R.string.response_wrong)
     }
 
     private fun view(view: View, color: Int, responseId: Int): View {
