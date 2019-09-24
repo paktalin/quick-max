@@ -25,13 +25,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ProgressBar
-                android:id="@+id/bar_time_left"
+                android:id="@+id/progress_bar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
-                android:max="100"
-                android:indeterminate="false" />
+                android:foregroundTint="#320A64"
+                android:indeterminate="false"
+                android:max="100" />
 
         </FrameLayout>
 
