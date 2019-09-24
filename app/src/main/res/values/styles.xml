@@ -8,19 +8,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AnswerCard">
+    <style name="AnswerCard" parent="CardView">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_margin">8dp</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="cardCornerRadius">4dp</item>
     </style>
 
     <style name="AnswerCardText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_gravity">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
     </style>
 
 </resources>

@@ -8,6 +8,41 @@
     android:background="#C4BFCC"
     tools:context=".MainActivity">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_task"
+        style="@style/CardView.Light"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="#EBF8F8F8"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_answers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/tv_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:includeFontPadding="true"
+            android:text="@string/second_max"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#323753" />
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_answers"
         android:layout_width="0dp"
@@ -68,7 +103,7 @@
             app:layout_constraintStart_toEndOf="@+id/btn_left_bottom"
             app:layout_constraintTop_toBottomOf="@+id/btn_right_top" >
 
-            <TextView style="@style/AnswerCardText"/>
+            <TextView style="@style/AnswerCardText" />
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -86,33 +121,5 @@
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_task"
-        style="@style/CardView.Light"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardBackgroundColor="#EBF8F8F8"
-        app:cardElevation="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/layout_answers"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        app:layout_constraintVertical_chainStyle="packed">
-
-        <TextView
-            android:id="@+id/tv_task"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:includeFontPadding="true"
-            android:text="@string/second_max"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textColor="#323753" />
-
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
