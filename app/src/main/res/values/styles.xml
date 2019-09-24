@@ -26,4 +26,14 @@
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
     </style>
 
+    <style name="ButtonNext">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
 </resources>
