@@ -80,10 +80,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onFinish() {
+            cv_task.elevation = 0f
             makeButtonsUncheckable()
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.main_layout, TimeIsOverFragment.newInstance(), "time_is_over")
+                .replace(R.id.main_layout, TimeIsOverFragment.newInstance(), "time_is_over")
                 .commitAllowingStateLoss()
         }
     }

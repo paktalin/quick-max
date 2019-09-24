@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A80C0000">
+    android:background="@drawable/gradient">
 
     <ImageView
         android:id="@+id/img_view_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:tint="#F44336"
+        android:tint="@color/white"
         app:layout_constraintBottom_toTopOf="@id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/time_is_over"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textColor="#F44336"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/response_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +34,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/response_layout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#F44336"
+        android:layout_height="60dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -48,11 +48,11 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="8dp"
             android:background="#009C27B0"
-            android:tint="#FFFFFF"
+            android:tint="@color/gradient_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_double_arrow" />
+            app:srcCompat="@drawable/ic_double_arrow_small" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
