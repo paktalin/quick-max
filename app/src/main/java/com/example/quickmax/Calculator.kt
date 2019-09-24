@@ -8,6 +8,14 @@ fun generateRandom(numDigits: Int): Int {
     return (start..end).shuffled().first()
 }
 
+fun generateNRandomNumbers(numDigits: Int, n: Int): Set<Int> {
+    val randomNumbers = setOf<Int>()
+    while (randomNumbers.size < n) {
+        randomNumbers.plus(generateRandom(numDigits))
+    }
+    return randomNumbers
+}
+
 fun findSecondMax(numbers: List<Int>): Int {
     var firstMax = 0
     var secondMax = 0

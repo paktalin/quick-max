@@ -22,11 +22,11 @@ import org.junit.Before
 class MainActivityTest {
     @get:Rule
     val testRule = ActivityTestRule<MainActivity>(MainActivity::class.java)
-    private lateinit var radioGroup: RadioGroup
+//    private lateinit var radioGroup: RadioGroup
 
     @Before
     fun init() {
-        radioGroup = testRule.activity.radio_group
+//        radioGroup = testRule.activity.radio_group
     }
 
     @Test

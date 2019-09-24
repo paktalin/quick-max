@@ -12,13 +12,13 @@ class AnswerSetTest {
 
     @Test
     fun test_constructor() {
-        assertEquals(numOptions, numberSet.numbers.size)
-        numberSet.numbers.forEach { n -> n in (100..999) }
+        assertEquals(numOptions, numberSet.answers.size)
+        numberSet.answers.forEach { n -> n in (100..999) }
     }
 
     @Test
     fun isCorrect() {
-        val secondMax = findSecondMax(numberSet.numbers)
+        val secondMax = findSecondMax(numberSet.answers)
         assertTrue(numberSet.isCorrect(secondMax))
     }
 }
