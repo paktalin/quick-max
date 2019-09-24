@@ -25,6 +25,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toTopOf="@+id/cv_left_bottom"
             app:layout_constraintEnd_toStartOf="@+id/cv_right_top"
             app:layout_constraintHorizontal_bias="0.5"
@@ -35,8 +38,7 @@
                 android:id="@+id/btn_left_top"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#00FFFFFF"
-                android:text="Button" />
+                android:background="#00FFFFFF" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -44,6 +46,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toTopOf="@id/cv_right_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -54,8 +59,7 @@
                 android:id="@+id/btn_right_top"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#00FFFFFF"
-                android:text="Button" />
+                android:background="#00FFFFFF" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -63,6 +67,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cv_right_bottom"
             app:layout_constraintHorizontal_bias="0.5"
@@ -73,8 +80,7 @@
                 android:id="@+id/btn_left_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#00FFFFFF"
-                android:text="Button" />
+                android:background="#00FFFFFF" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -82,6 +88,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -92,8 +101,7 @@
                 android:id="@+id/btn_right_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#00FFFFFF"
-                android:text="Button" />
+                android:background="#00FFFFFF" />
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
