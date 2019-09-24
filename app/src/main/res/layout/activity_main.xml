@@ -21,49 +21,47 @@
         app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_left_top"
+            android:id="@+id/btn_left_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:layout_constraintBottom_toTopOf="@+id/cv_left_bottom"
-            app:layout_constraintEnd_toStartOf="@+id/cv_right_top"
+            app:layout_constraintBottom_toTopOf="@+id/btn_left_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/btn_right_top"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
 
-            <Button
-                android:id="@+id/btn_left_top"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#00FFFFFF" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_right_top"
+            android:id="@+id/btn_right_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:layout_constraintBottom_toTopOf="@id/cv_right_bottom"
+            app:layout_constraintBottom_toTopOf="@id/btn_right_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cv_left_top"
+            app:layout_constraintStart_toEndOf="@+id/btn_left_top"
             app:layout_constraintTop_toTopOf="parent" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
 
-            <Button
-                android:id="@+id/btn_right_top"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#00FFFFFF" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_left_bottom"
+            android:id="@+id/btn_left_bottom"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
@@ -71,20 +69,19 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cv_right_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/btn_right_bottom"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_left_top" >
+            app:layout_constraintTop_toBottomOf="@+id/btn_right_top" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
 
-            <Button
-                android:id="@+id/btn_left_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#00FFFFFF" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_right_bottom"
+            android:id="@+id/btn_right_bottom"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
@@ -94,14 +91,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cv_left_bottom"
-            app:layout_constraintTop_toBottomOf="@+id/cv_right_top" >
+            app:layout_constraintStart_toEndOf="@+id/btn_left_bottom"
+            app:layout_constraintTop_toBottomOf="@+id/btn_right_top" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
 
-            <Button
-                android:id="@+id/btn_right_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#00FFFFFF" />
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

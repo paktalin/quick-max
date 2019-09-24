@@ -2,8 +2,9 @@ package com.example.quickmax
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,8 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpAnswerButtons() {
         for (answer in answerSet) {
-            findViewById<Button>(answer.buttonId).text = answer.value.toString()
-            findViewById<Button>(answer.buttonId).setOnClickListener { processAnswer(answer.correct) }
+            (findViewById<CardView>(answer.buttonId).getChildAt(0) as TextView).text = answer.value.toString()
+            findViewById<CardView>(answer.buttonId).setOnClickListener { processAnswer(answer.correct) }
         }
     }
 
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun makeRadioButtonsUncheckable() {
         for (answer in answerSet) {
-            findViewById<Button>(answer.buttonId).isClickable = false
+            findViewById<CardView>(answer.buttonId).isClickable = false
         }
     }
 
