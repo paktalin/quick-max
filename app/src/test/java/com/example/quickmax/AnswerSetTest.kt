@@ -4,11 +4,11 @@ import org.junit.Test
 
 import org.junit.Assert.*
 
-class NumberSetTest {
+class AnswerSetTest {
 
     private val numOptions = 4
     private val numDigits = 3
-    private val numberSet = NumberSet(numOptions, numDigits)
+    private val numberSet = AnswerSet(numOptions, numDigits)
 
     @Test
     fun test_constructor() {

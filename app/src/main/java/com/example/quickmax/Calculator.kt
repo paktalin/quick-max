@@ -8,7 +8,7 @@ fun generateRandom(numDigits: Int): Int {
     return (start..end).shuffled().first()
 }
 
-fun findSecondMax(numbers: MutableList<Int>): Int {
+fun findSecondMax(numbers: List<Int>): Int {
     var firstMax = 0
     var secondMax = 0
 

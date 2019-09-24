@@ -3,15 +3,15 @@ package com.example.quickmax
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.Button
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
-import androidx.fragment.app.Fragment
+import androidx.cardview.widget.CardView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var numberSet = NumberSet(4, 3)
+    private var answerSet = AnswerSet(4)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,22 +21,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addRadioButtons() {
-        for (n in numberSet) {
-            val radioButton = RadioButton(this)
-            radioButton.id = View.generateViewId()
-            radioButton.text = n.toString()
-            radioButton.setOnClickListener { processAnswer(n) }
-            radio_group.addView(radioButton)
+        for (answer in answerSet) {
+            findViewById<Button>(answer.buttonId).text = answer.value.toString()
+            findViewById<Button>(answer.buttonId).setOnClickListener { processAnswer(answer.correct) }
         }
     }
 
-    private fun processAnswer(answer: Int) {
+    private fun processAnswer(correct: Boolean) {
         timer.cancel()
         makeRadioButtonsUncheckable()
 
         val responseFragment = ResponseFragment.newInstance().also {
                     f -> f.arguments = Bundle().also {
-                    b -> b.putBoolean("correct", numberSet.isCorrect(answer))  } }
+                    b -> b.putBoolean("correct", correct)  } }
 
         supportFragmentManager
             .beginTransaction()
@@ -45,8 +42,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeRadioButtonsUncheckable() {
-        for (i in 0 until radio_group.childCount) {
-            radio_group[i].isClickable = false
+        for (answer in answerSet) {
+            findViewById<Button>(answer.buttonId).isClickable = false
         }
     }
 
