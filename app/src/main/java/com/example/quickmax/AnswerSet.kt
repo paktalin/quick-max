@@ -3,7 +3,7 @@ package com.example.quickmax
 
 class AnswerSet(numDigits: Int): Iterable<Answer> {
 
-    private val buttonIds = listOf(R.id.btn_left_top, R.id.btn_right_top, R.id.btn_left_bottom, R.id.btn_right_bottom)
+    private val buttonIds = listOf(R.id.card_left_top, R.id.card_right_top, R.id.card_left_bottom, R.id.card_right_bottom)
     private val numAnswers = 4
     private lateinit var correctAnswer: Answer
 

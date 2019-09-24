@@ -25,10 +25,10 @@ class MainActivityTest {
     @Before
     fun init() {
         answers = mapOf(
-            getText(withId(R.id.btn_left_top)).toInt() to R.id.btn_left_top,
-            getText(withId(R.id.btn_right_top)).toInt() to R.id.btn_right_top,
-            getText(withId(R.id.btn_left_bottom)).toInt() to R.id.btn_left_bottom,
-            getText(withId(R.id.btn_right_bottom)).toInt() to R.id.btn_right_bottom
+            getText(withId(R.id.card_left_top)).toInt() to R.id.card_left_top,
+            getText(withId(R.id.card_right_top)).toInt() to R.id.card_right_top,
+            getText(withId(R.id.card_left_bottom)).toInt() to R.id.card_left_bottom,
+            getText(withId(R.id.card_right_bottom)).toInt() to R.id.card_right_bottom
         )
     }
 
@@ -50,9 +50,9 @@ class MainActivityTest {
 
     @Test
     fun only_fist_answer_accepted() {
-        onView(withId(R.id.btn_right_bottom)).perform(click())
+        onView(withId(R.id.card_right_bottom)).perform(click())
         assertTrue(testRule.activity.supportFragmentManager.fragments.size == 1)
-        onView(withId(R.id.btn_left_bottom)).perform(click())
+        onView(withId(R.id.card_left_bottom)).perform(click())
         assertTrue(testRule.activity.supportFragmentManager.fragments.size == 1)
     }
 

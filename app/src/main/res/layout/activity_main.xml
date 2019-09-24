@@ -5,7 +5,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C4BFCC"
+    android:background="@color/colorBackground"
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
@@ -38,7 +38,7 @@
             android:gravity="center"
             android:includeFontPadding="true"
             android:text="@string/second_max"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#323753" />
 
     </androidx.cardview.widget.CardView>
@@ -56,52 +56,52 @@
         app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btn_left_top"
+            android:id="@+id/card_left_top"
             style="@style/AnswerCard"
-            app:layout_constraintBottom_toTopOf="@+id/btn_left_bottom"
-            app:layout_constraintEnd_toStartOf="@+id/btn_right_top"
+            app:layout_constraintBottom_toTopOf="@+id/card_left_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/card_right_top"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView style="@style/AnswerCardText"/>
+            <TextView style="@style/AnswerCardText" />
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btn_right_top"
+            android:id="@+id/card_right_top"
             style="@style/AnswerCard"
-            app:layout_constraintBottom_toTopOf="@id/btn_right_bottom"
+            app:layout_constraintBottom_toTopOf="@id/card_right_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_left_top"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintStart_toEndOf="@+id/card_left_top"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView style="@style/AnswerCardText"/>
+            <TextView style="@style/AnswerCardText" />
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btn_left_bottom"
+            android:id="@+id/card_left_bottom"
             style="@style/AnswerCard"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_right_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/card_right_bottom"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_left_top" >
+            app:layout_constraintTop_toBottomOf="@+id/card_left_top">
 
-            <TextView style="@style/AnswerCardText"/>
+            <TextView style="@style/AnswerCardText" />
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btn_right_bottom"
+            android:id="@+id/card_right_bottom"
             style="@style/AnswerCard"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_left_bottom"
-            app:layout_constraintTop_toBottomOf="@+id/btn_right_top" >
+            app:layout_constraintStart_toEndOf="@+id/card_left_bottom"
+            app:layout_constraintTop_toBottomOf="@+id/card_right_top">
 
             <TextView style="@style/AnswerCardText" />
 
