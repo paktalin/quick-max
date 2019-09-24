@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private val timer = object : CountDownTimer(4000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
-            tv_time_left.text = (millisUntilFinished / 1000).toString()
+//            tv_time_left.text = (millisUntilFinished / 1000).toString()
         }
 
         override fun onFinish() {

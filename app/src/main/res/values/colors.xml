@@ -6,4 +6,6 @@
 
     <color name="colorBackground">#C4BFCC</color>
     <color name="colorCorrect">#81C784</color>
+    <color name="gradient_dark">#FF4A148C</color>
+    <color name="gradient_light">#FF00BCD4</color>
 </resources>
