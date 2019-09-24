@@ -4,4 +4,8 @@
     <string name="response_correct">CORRECT</string>
     <string name="response_wrong">WRONG</string>
     <string name="time_is_over">TIME IS OVER</string>
+    <string name="number_digits_2">2</string>
+    <string name="number_digits_3">3</string>
+    <string name="number_digits_4">4</string>
+    <string name="how_many_digits">HOW MANY DIGITS?</string>
 </resources>

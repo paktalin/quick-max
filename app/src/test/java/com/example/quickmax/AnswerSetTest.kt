@@ -1,5 +1,7 @@
 package com.example.quickmax
 
+import com.example.quickmax.answers.AnswerSet
+import com.example.quickmax.answers.findSecondMax
 import org.junit.Test
 
 import org.junit.Assert.*

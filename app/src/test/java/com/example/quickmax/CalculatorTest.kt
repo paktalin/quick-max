@@ -1,5 +1,7 @@
 package com.example.quickmax
 
+import com.example.quickmax.answers.findSecondMax
+import com.example.quickmax.answers.generateRandom
 import org.junit.Test
 
 import org.junit.Assert.*

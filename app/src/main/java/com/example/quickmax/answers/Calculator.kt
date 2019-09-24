@@ -1,4 +1,4 @@
-package com.example.quickmax
+package com.example.quickmax.answers
 
 import kotlin.math.pow
 

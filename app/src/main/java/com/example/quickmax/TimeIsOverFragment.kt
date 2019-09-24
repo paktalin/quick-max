@@ -18,7 +18,7 @@ class TimeIsOverFragment: Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_time_is_over, container, false)
-        view.findViewById<ImageButton>(R.id.btn_next).setOnClickListener { (activity as MainActivity).reload() }
+        view.findViewById<ImageButton>(R.id.btn_next).setOnClickListener { (activity as TaskActivity).reload() }
         return view
     }
 }

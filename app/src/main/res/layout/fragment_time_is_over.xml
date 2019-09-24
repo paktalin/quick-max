@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/time_is_over"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/response_layout"
         app:layout_constraintEnd_toEndOf="parent"

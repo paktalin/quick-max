@@ -11,14 +11,15 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import com.example.quickmax.answers.findSecondMax
 import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertTrue
 import org.hamcrest.Matcher
 import org.junit.Before
 
-class MainActivityTest {
+class TaskActivityTest {
     @get:Rule
-    val testRule = ActivityTestRule<MainActivity>(MainActivity::class.java, true, true)
+    val testRule = ActivityTestRule<TaskActivity>(TaskActivity::class.java, true, true)
 
     private lateinit var answers: Map<Int, Int>
 
