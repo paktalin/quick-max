@@ -1,5 +1,6 @@
 package com.example.quickmax
 
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var answerSet: AnswerSet
+    private val timeToSolve = 4000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +54,13 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private val timer = object : CountDownTimer(4000, 1000) {
+    private val timer = object : CountDownTimer(timeToSolve.toLong(), 100) {
         override fun onTick(millisUntilFinished: Long) {
-//            tv_time_left.text = (millisUntilFinished / 1000).toString()
+            val progress = ((timeToSolve - millisUntilFinished).toFloat() / timeToSolve) * 100
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                bar_time_left.setProgress(progress.toInt(), true)
+            else
+                bar_time_left.progress = progress.toInt()
         }
 
         override fun onFinish() {
