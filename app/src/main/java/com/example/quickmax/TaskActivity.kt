@@ -14,13 +14,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.quickmax.answers.Answer
 import com.example.quickmax.answers.AnswerSet
-import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_task.*
 
 class TaskActivity : AppCompatActivity() {
 
     private lateinit var answerSet: AnswerSet
     private var millisToSolve: Long = 4000
+    private var numDigits: Int = 3
     private lateinit var timer: CountDownTimer
     private lateinit var colorAnimation: ValueAnimator
 
@@ -28,14 +28,16 @@ class TaskActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
 
-        val numDigits = intent.getIntExtra("num_digits", 3)
-        millisToSolve = 1000 * intent.getIntExtra("sec_to_solve", 4).toLong()
+        retrieveExtras()
         initTimer()
+        startNewRound()
+    }
+
+    private fun startNewRound() {
         answerSet = AnswerSet(numDigits, listOf(card_left_top, card_right_top, card_left_bottom, card_right_bottom))
-        setUpAnswerButtons()
+        setUpButtons()
         timer.start()
         startProgressBarAnimation()
-        btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
     }
 
     fun reload() {
@@ -44,10 +46,22 @@ class TaskActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun setUpAnswerButtons() {
+    private fun retrieveExtras() {
+        numDigits = intent.getIntExtra("num_digits", 3)
+        millisToSolve = 1000 * intent.getIntExtra("sec_to_solve", 4).toLong()
+    }
+
+    private fun setUpButtons() {
         for (answer in answerSet) {
             (answer.card.getChildAt(0) as TextView).text = answer.value.toString()
+            (answer.card.getChildAt(0) as TextView).setTextColor(color(R.color.transparent_black))
             answer.card.setOnClickListener { processAnswer(answer) }
+            answer.card.background.clearColorFilter()
+        }
+        btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
+        btn_next.apply {
+            setOnClickListener { startNewRound() }
+            visibility = View.INVISIBLE
         }
     }
 
@@ -61,18 +75,18 @@ class TaskActivity : AppCompatActivity() {
     private fun setResponseText(answer: Answer) {
         tv_timer.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
         btn_next.visibility = View.VISIBLE
-        btn_next.setOnClickListener { reload() }
 
         if (answer.correct) {
             tv_timer.text = resources.getString(R.string.response_correct)
-            answer.card.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
+            answer.card.background.setColorFilter(color(R.color.colorAccent), PorterDuff.Mode.MULTIPLY)
             btn_next.background.setColorFilter(color(R.color.colorAccent), PorterDuff.Mode.MULTIPLY)
             btn_next.setTextColor(color(R.color.transparent_dark_black))
         } else {
             tv_timer.text = resources.getString(R.string.response_wrong)
-            answer.card.setCardBackgroundColor(color(R.color.colorPrimary))
+            answer.card.background.setColorFilter(color(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
             btn_next.background.setColorFilter(color(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
             (answer.card.getChildAt(0) as TextView).setTextColor(Color.WHITE)
+
         }
     }
 
