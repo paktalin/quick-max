@@ -4,14 +4,17 @@ import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.TypedValue
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.quickmax.answers.Answer
 import com.example.quickmax.answers.AnswerSet
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_task.*
 
 class TaskActivity : AppCompatActivity() {
@@ -53,30 +56,24 @@ class TaskActivity : AppCompatActivity() {
         colorAnimation.cancel()
         setResponseText(answer)
         makeButtonsUncheckable()
-        startResponseFragment(answer)
     }
 
     private fun setResponseText(answer: Answer) {
         tv_timer.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
+        btn_next.visibility = View.VISIBLE
+        btn_next.setOnClickListener { reload() }
+
         if (answer.correct) {
             tv_timer.text = resources.getString(R.string.response_correct)
             answer.card.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
+            btn_next.background.setColorFilter(resources.getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY)
+            btn_next.setTextColor(resources.getColor(R.color.transparent_dark_black))
         } else {
             tv_timer.text = resources.getString(R.string.response_wrong)
             answer.card.setCardBackgroundColor(resources.getColor(R.color.colorPrimary))
+            btn_next.background.setColorFilter(resources.getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
             (answer.card.getChildAt(0) as TextView).setTextColor(Color.WHITE)
         }
-    }
-
-    private fun startResponseFragment(answer: Answer) {
-        val responseFragment = ResponseFragment.newInstance().also {
-                f -> f.arguments = Bundle().also {
-                b -> b.putBoolean("correct", answer.correct)  } }
-
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.main_layout, responseFragment, "response")
-            .commitAllowingStateLoss()
     }
 
     private fun makeButtonsUncheckable() {
