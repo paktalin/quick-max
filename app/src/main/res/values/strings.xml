@@ -8,4 +8,5 @@
     <string name="number_digits_3">3</string>
     <string name="number_digits_4">4</string>
     <string name="how_many_digits">HOW MANY DIGITS?</string>
+    <string name="time_to_solve">Time to solve: %1$s seconds</string>
 </resources>

@@ -35,5 +35,4 @@
         <item name="background">@android:color/transparent</item>
         <item name="tint">@color/white</item>
     </style>
-
 </resources>
