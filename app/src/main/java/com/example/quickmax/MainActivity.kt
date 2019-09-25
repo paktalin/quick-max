@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         val cardM = card as MaterialCardView
         if (!cardM.isChecked) {
             cardM.isChecked = true
+            checkedCard = cardM
             numDigits = getTextView(card).text.toString().toInt()
             listOf(card_2_digits, card_3_digits, card_4_digits).forEach { c ->
                 if (c.id != cardM.id)
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     private fun saveSelectedValues() {
         val editor = getSharedPreferences("my_prefs", Context.MODE_PRIVATE).edit()
         editor.putInt("sec_to_solve", secToSolve)
+        editor.putInt("checked_num_id", checkedCard.id)
         editor.apply()
     }
 
