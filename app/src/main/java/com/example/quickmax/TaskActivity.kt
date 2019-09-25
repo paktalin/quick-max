@@ -3,7 +3,6 @@ package com.example.quickmax
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
@@ -16,15 +15,26 @@ import kotlinx.android.synthetic.main.activity_task.*
 class TaskActivity : AppCompatActivity() {
 
     private lateinit var answerSet: AnswerSet
-    private val timeToSolve:Long = 4000
+    private var millisToSolve: Long = 4000
+    private lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
-        answerSet = AnswerSet(3)
+
+        val numDigits = intent.getIntExtra("num_digits", 3)
+        millisToSolve = 1000 * intent.getIntExtra("sec_to_solve", 4).toLong()
+        initTimer()
+        answerSet = AnswerSet(numDigits)
         setUpAnswerButtons()
         timer.start()
         startProgressBarAnimation()
+    }
+
+    fun reload() {
+        val intent = intent
+        finish()
+        startActivity(intent)
     }
 
     private fun setUpAnswerButtons() {
@@ -58,7 +68,7 @@ class TaskActivity : AppCompatActivity() {
         val colorFrom = Color.TRANSPARENT
         val colorTo = ContextCompat.getColor(this, R.color.transparent_red)
         val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
-        colorAnimation.duration = timeToSolve
+        colorAnimation.duration = millisToSolve
         colorAnimation.addUpdateListener { animator ->
             layout_gradient.background.setColorFilter(animator.animatedValue as Int,
                 android.graphics.PorterDuff.Mode.SRC_ATOP)
@@ -66,24 +76,20 @@ class TaskActivity : AppCompatActivity() {
         colorAnimation.start()
     }
 
-    fun reload() {
-        val intent = intent
-        finish()
-        startActivity(intent)
-    }
+    private fun initTimer() {
+        timer = object : CountDownTimer(millisToSolve, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                tv_timer.text = (millisUntilFinished/1000).toString()
+            }
 
-    private val timer = object : CountDownTimer(timeToSolve, 1000) {
-        override fun onTick(millisUntilFinished: Long) {
-            tv_timer.text = (millisUntilFinished/1000).toString()
-        }
-
-        override fun onFinish() {
-            cv_task.elevation = 0f
-            makeButtonsUncheckable()
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.main_layout, TimeIsOverFragment.newInstance(), "time_is_over")
-                .commitAllowingStateLoss()
+            override fun onFinish() {
+                cv_task.elevation = 0f
+                makeButtonsUncheckable()
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_layout, TimeIsOverFragment.newInstance(), "time_is_over")
+                    .commitAllowingStateLoss()
+            }
         }
     }
 }
