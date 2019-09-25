@@ -1,9 +1,9 @@
 package com.example.quickmax
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity: AppCompatActivity() {
 
@@ -14,8 +14,10 @@ class MainActivity: AppCompatActivity() {
         seek_bar.setOnSeekbarChangeListener {
             n -> seek_bar_value.text = resources.getString(R.string.time_to_solve, n.toString())
         }
-
-
         seek_bar.setMinStartValue(4f).apply()
+
+        card_3_digits.setOnClickListener {
+            startActivity(Intent(this, TaskActivity::class.java))
+        }
     }
 }

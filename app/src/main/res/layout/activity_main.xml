@@ -16,7 +16,7 @@
         android:gravity="center"
         android:text="@string/how_many_digits"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/layout_num_digits"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-        <com.example.quickmax.CheckableCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_2_digits"
             style="@style/MyCard"
             android:foreground="?android:attr/selectableItemBackground"
@@ -45,9 +45,9 @@
             <TextView
                 style="@style/AnswerCardText"
                 android:text="@string/number_digits_2" />
-        </com.example.quickmax.CheckableCardView>
+        </androidx.cardview.widget.CardView>
 
-        <com.example.quickmax.CheckableCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_3_digits"
             style="@style/MyCard"
             android:foreground="?android:attr/selectableItemBackground"
@@ -59,9 +59,9 @@
             <TextView
                 style="@style/AnswerCardText"
                 android:text="@string/number_digits_3" />
-        </com.example.quickmax.CheckableCardView>
+        </androidx.cardview.widget.CardView>
 
-        <com.example.quickmax.CheckableCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_4_digits"
             style="@style/MyCard"
             android:foreground="?android:attr/selectableItemBackground"
@@ -73,7 +73,7 @@
             <TextView
                 style="@style/AnswerCardText"
                 android:text="@string/number_digits_4" />
-        </com.example.quickmax.CheckableCardView>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar
@@ -81,15 +81,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:bar_color="@color/white"
-        app:bar_highlight_color="@color/gradient_dark"
+        app:bar_color="@android:color/white"
+        app:bar_highlight_color="@color/colorPrimary"
         app:corner_radius="10"
         app:data_type="_integer"
         app:layout_constraintEnd_toEndOf="@+id/layout_num_digits"
         app:layout_constraintStart_toStartOf="@+id/layout_num_digits"
         app:layout_constraintTop_toBottomOf="@+id/layout_num_digits"
-        app:left_thumb_color="@color/white"
-        app:left_thumb_color_pressed="@color/gradient_dark"
+        app:left_thumb_color="@android:color/white"
+        app:left_thumb_color_pressed="@color/colorPrimary"
         app:max_value="10"
         app:min_value="2" />
 
@@ -101,17 +101,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/time_to_solve"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="@+id/layout_num_digits"
         app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
-
-    <RadioButton
-        android:id="@+id/radioButton"
-        style="@style/CardView.Light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:button="@android:color/transparent"
-        android:text="@string/number_digits_2"
-        android:background="@color/cardview_light_background"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

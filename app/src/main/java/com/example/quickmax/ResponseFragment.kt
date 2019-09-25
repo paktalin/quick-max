@@ -24,9 +24,9 @@ class ResponseFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_response, container, false)
         val correct = arguments!!.getBoolean("correct")
         return if (correct)
-            view(view, ContextCompat.getColor(activity!!, R.color.gradient_light), R.string.response_correct)
+            view(view, ContextCompat.getColor(activity!!, R.color.colorAccent), R.string.response_correct)
         else
-            view(view, ContextCompat.getColor(activity!!, R.color.gradient_dark), R.string.response_wrong)
+            view(view, ContextCompat.getColor(activity!!, R.color.colorPrimary), R.string.response_wrong)
     }
 
     private fun view(view: View, color: Int, responseId: Int): View {

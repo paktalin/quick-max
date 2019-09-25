@@ -2,6 +2,7 @@ package com.example.quickmax
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -54,8 +55,8 @@ class TaskActivity : AppCompatActivity() {
     }
 
     private fun startProgressBarAnimation() {
-        val colorFrom = ContextCompat.getColor(this, R.color.gradient_dark)
-        val colorTo = ContextCompat.getColor(this, R.color.red)
+        val colorFrom = ContextCompat.getColor(this, R.color.colorPrimary)
+        val colorTo = Color.RED
         val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
         colorAnimation.duration = timeToSolve
         colorAnimation.addUpdateListener { animator ->
