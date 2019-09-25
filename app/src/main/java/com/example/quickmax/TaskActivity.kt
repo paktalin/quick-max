@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.TypedValue
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -50,18 +51,27 @@ class TaskActivity : AppCompatActivity() {
     private fun processAnswer(answer: Answer) {
         timer.cancel()
         colorAnimation.cancel()
-        if (answer.correct)
+        setResponseText(answer)
+        makeButtonsUncheckable()
+        startResponseFragment(answer)
+    }
+
+    private fun setResponseText(answer: Answer) {
+        tv_timer.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
+        if (answer.correct) {
+            tv_timer.text = resources.getString(R.string.response_correct)
             answer.card.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
-        else {
+        } else {
+            tv_timer.text = resources.getString(R.string.response_wrong)
             answer.card.setCardBackgroundColor(resources.getColor(R.color.colorPrimary))
             (answer.card.getChildAt(0) as TextView).setTextColor(Color.WHITE)
         }
+    }
 
-        makeButtonsUncheckable()
-
+    private fun startResponseFragment(answer: Answer) {
         val responseFragment = ResponseFragment.newInstance().also {
-                    f -> f.arguments = Bundle().also {
-                    b -> b.putBoolean("correct", answer.correct)  } }
+                f -> f.arguments = Bundle().also {
+                b -> b.putBoolean("correct", answer.correct)  } }
 
         supportFragmentManager
             .beginTransaction()

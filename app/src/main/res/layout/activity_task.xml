@@ -38,7 +38,7 @@
         android:gravity="center"
         android:text="@string/number_digits_3"
         android:textColor="@android:color/white"
-        app:autoSizeTextType="uniform"
+        android:textSize="60sp"
         app:layout_constraintBottom_toTopOf="@+id/cv_task"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
