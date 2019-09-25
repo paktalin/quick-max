@@ -51,7 +51,13 @@ class TaskActivity : AppCompatActivity() {
     private fun processAnswer(answer: Answer) {
         timer.cancel()
         colorAnimation.cancel()
-        findViewById<CardView>(answer.cardId).setCardBackgroundColor(resources.getColor(R.color.colorAccent))
+        if (answer.correct)
+            findViewById<CardView>(answer.cardId).setCardBackgroundColor(resources.getColor(R.color.colorAccent))
+        else {
+            findViewById<CardView>(answer.cardId).setCardBackgroundColor(resources.getColor(R.color.colorPrimary))
+            (findViewById<CardView>(answer.cardId).getChildAt(0) as TextView).setTextColor(Color.WHITE)
+        }
+
         makeButtonsUncheckable()
 
         val responseFragment = ResponseFragment.newInstance().also {
