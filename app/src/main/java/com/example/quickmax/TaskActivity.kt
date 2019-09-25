@@ -85,8 +85,8 @@ class TaskActivity : AppCompatActivity() {
             tv_timer.text = resources.getString(R.string.response_wrong)
             answer.card.background.setColorFilter(color(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
             btn_next.background.setColorFilter(color(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
+            btn_next.setTextColor(Color.WHITE)
             (answer.card.getChildAt(0) as TextView).setTextColor(Color.WHITE)
-
         }
     }
 
@@ -115,12 +115,11 @@ class TaskActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                cv_task.elevation = 0f
-                makeButtonsUncheckable()
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main_layout, TimeIsOverFragment.newInstance(), "time_is_over")
-                    .commitAllowingStateLoss()
+                tv_timer.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
+                tv_timer.text = resources.getString(R.string.time_is_over)
+                btn_next.background.setColorFilter(color(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
+                btn_next.setTextColor(Color.WHITE)
+                btn_next.visibility = View.VISIBLE
             }
         }
     }
