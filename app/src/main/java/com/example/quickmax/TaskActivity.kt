@@ -40,12 +40,6 @@ class TaskActivity : AppCompatActivity() {
         startProgressBarAnimation()
     }
 
-    fun reload() {
-        val intent = intent
-        finish()
-        startActivity(intent)
-    }
-
     private fun retrieveExtras() {
         numDigits = intent.getIntExtra("num_digits", 3)
         millisToSolve = 1000 * intent.getIntExtra("sec_to_solve", 4).toLong()
@@ -56,7 +50,7 @@ class TaskActivity : AppCompatActivity() {
             (answer.card.getChildAt(0) as TextView).text = answer.value.toString()
             (answer.card.getChildAt(0) as TextView).setTextColor(color(R.color.transparent_black))
             answer.card.setOnClickListener { processAnswer(answer) }
-            answer.card.background.clearColorFilter()
+            answer.card.setCardBackgroundColor(Color.WHITE)
         }
         btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
         btn_next.apply {
@@ -78,13 +72,13 @@ class TaskActivity : AppCompatActivity() {
 
         if (answer.correct) {
             tv_timer.text = resources.getString(R.string.response_correct)
-            answer.card.background.setColorFilter(color(R.color.colorAccent), PorterDuff.Mode.MULTIPLY)
-            btn_next.background.setColorFilter(color(R.color.colorAccent), PorterDuff.Mode.MULTIPLY)
+            answer.card.setCardBackgroundColor(color(R.color.colorAccent))
+            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorAccent)
             btn_next.setTextColor(color(R.color.transparent_dark_black))
         } else {
             tv_timer.text = resources.getString(R.string.response_wrong)
-            answer.card.background.setColorFilter(color(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
-            btn_next.background.setColorFilter(color(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
+            answer.card.setCardBackgroundColor(color(R.color.colorPrimary))
+            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, (R.color.colorPrimary))
             btn_next.setTextColor(Color.WHITE)
             (answer.card.getChildAt(0) as TextView).setTextColor(Color.WHITE)
         }

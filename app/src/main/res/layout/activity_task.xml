@@ -44,15 +44,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_task"
-        style="@style/CardView.Light"
+        style="@style/MyCard"
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:layout_margin="16dp"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="2dp"
         app:layout_constraintBottom_toTopOf="@+id/layout_answers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +73,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#323753" />
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_answers"
@@ -93,9 +90,10 @@
         app:layout_constraintVertical_bias="0.5"
         app:layout_constraintVertical_chainStyle="packed">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_left_top"
             style="@style/MyCard"
+            app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@+id/card_left_bottom"
             app:layout_constraintEnd_toStartOf="@+id/card_right_top"
             app:layout_constraintHorizontal_bias="0.5"
@@ -104,9 +102,9 @@
 
             <TextView style="@style/AnswerCardText" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_right_top"
             style="@style/MyCard"
             app:layout_constraintBottom_toTopOf="@id/card_right_bottom"
@@ -117,9 +115,9 @@
 
             <TextView style="@style/AnswerCardText" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_left_bottom"
             style="@style/MyCard"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -130,9 +128,9 @@
 
             <TextView style="@style/AnswerCardText" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_right_bottom"
             style="@style/MyCard"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -143,7 +141,7 @@
 
             <TextView style="@style/AnswerCardText" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton

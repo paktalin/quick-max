@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
+import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity: AppCompatActivity() {
@@ -30,7 +30,7 @@ class MainActivity: AppCompatActivity() {
     }
 
     private val cardOnClickListener = View.OnClickListener { card ->
-        val numDigits = ((card as CardView).getChildAt(0) as TextView).text.toString().toInt()
+        val numDigits = ((card as MaterialCardView).getChildAt(0) as TextView).text.toString().toInt()
 
         saveSelectedValues()
 
