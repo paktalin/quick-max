@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.TypedValue
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.quickmax.answers.Answer
@@ -47,8 +46,8 @@ class TaskActivity : AppCompatActivity() {
 
     private fun setUpButtons() {
         for (answer in answerSet) {
-            (answer.card.getChildAt(0) as TextView).text = answer.value.toString()
-            (answer.card.getChildAt(0) as TextView).setTextColor(color(R.color.transparent_black))
+            getTextView(answer.card).text = answer.value.toString()
+            getTextView(answer.card).setTextColor(color(this, R.color.transparent_black))
             answer.card.setOnClickListener { processAnswer(answer) }
             answer.card.setCardBackgroundColor(Color.WHITE)
         }
@@ -67,20 +66,20 @@ class TaskActivity : AppCompatActivity() {
     }
 
     private fun setResponseText(answer: Answer) {
-        tv_timer.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
+        tv_response.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
         btn_next.visibility = View.VISIBLE
 
         if (answer.correct) {
-            tv_timer.text = resources.getString(R.string.response_correct)
-            answer.card.setCardBackgroundColor(color(R.color.colorAccent))
+            tv_response.text = resources.getString(R.string.response_correct)
+            answer.card.setCardBackgroundColor(color(this, R.color.colorAccent))
             btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorAccent)
-            btn_next.setTextColor(color(R.color.transparent_dark_black))
+            btn_next.setTextColor(color(this, R.color.transparent_dark_black))
         } else {
-            tv_timer.text = resources.getString(R.string.response_wrong)
-            answer.card.setCardBackgroundColor(color(R.color.colorPrimary))
+            tv_response.text = resources.getString(R.string.response_wrong)
+            answer.card.setCardBackgroundColor(color(this, R.color.colorPrimary))
             btn_next.backgroundTintList = ContextCompat.getColorStateList(this, (R.color.colorPrimary))
             btn_next.setTextColor(Color.WHITE)
-            (answer.card.getChildAt(0) as TextView).setTextColor(Color.WHITE)
+            getTextView(answer.card).setTextColor(Color.WHITE)
         }
     }
 
@@ -92,7 +91,7 @@ class TaskActivity : AppCompatActivity() {
 
     private fun startProgressBarAnimation() {
         val colorFrom = Color.TRANSPARENT
-        val colorTo = color(R.color.transparent_red)
+        val colorTo = color(this, R.color.transparent_red)
         colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
         colorAnimation.duration = millisToSolve
         colorAnimation.addUpdateListener { animator ->
@@ -105,20 +104,16 @@ class TaskActivity : AppCompatActivity() {
     private fun initTimer() {
         timer = object : CountDownTimer(millisToSolve, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                tv_timer.text = (millisUntilFinished/1000).toString()
+                tv_response.text = (millisUntilFinished/1000).toString()
             }
 
             override fun onFinish() {
-                tv_timer.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
-                tv_timer.text = resources.getString(R.string.time_is_over)
-                btn_next.background.setColorFilter(color(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
+                tv_response.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
+                tv_response.text = resources.getString(R.string.time_is_over)
+                btn_next.background.setColorFilter(color(this@TaskActivity, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
                 btn_next.setTextColor(Color.WHITE)
                 btn_next.visibility = View.VISIBLE
             }
         }
-    }
-
-    private fun color(id: Int): Int {
-        return ContextCompat.getColor(this, id)
     }
 }
