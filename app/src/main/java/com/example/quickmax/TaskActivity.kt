@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.example.quickmax.answers.Answer
 import com.example.quickmax.answers.AnswerSet
 import kotlinx.android.synthetic.main.activity_task.*
 
@@ -42,19 +43,20 @@ class TaskActivity : AppCompatActivity() {
 
     private fun setUpAnswerButtons() {
         for (answer in answerSet) {
-            (findViewById<CardView>(answer.buttonId).getChildAt(0) as TextView).text = answer.value.toString()
-            findViewById<CardView>(answer.buttonId).setOnClickListener { processAnswer(answer.correct) }
+            (findViewById<CardView>(answer.cardId).getChildAt(0) as TextView).text = answer.value.toString()
+            findViewById<CardView>(answer.cardId).setOnClickListener { processAnswer(answer) }
         }
     }
 
-    private fun processAnswer(correct: Boolean) {
+    private fun processAnswer(answer: Answer) {
         timer.cancel()
         colorAnimation.cancel()
+        findViewById<CardView>(answer.cardId).setCardBackgroundColor(resources.getColor(R.color.colorAccent))
         makeButtonsUncheckable()
 
         val responseFragment = ResponseFragment.newInstance().also {
                     f -> f.arguments = Bundle().also {
-                    b -> b.putBoolean("correct", correct)  } }
+                    b -> b.putBoolean("correct", answer.correct)  } }
 
         supportFragmentManager
             .beginTransaction()
@@ -64,7 +66,7 @@ class TaskActivity : AppCompatActivity() {
 
     private fun makeButtonsUncheckable() {
         for (answer in answerSet) {
-            findViewById<CardView>(answer.buttonId).isClickable = false
+            findViewById<CardView>(answer.cardId).isClickable = false
         }
     }
 
