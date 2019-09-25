@@ -1,16 +1,8 @@
 package com.example.quickmax.answers
 
-import com.example.quickmax.R
+import androidx.cardview.widget.CardView
 
-
-class AnswerSet(numDigits: Int): Iterable<Answer> {
-
-    private val buttonIds = listOf(
-        R.id.card_left_top,
-        R.id.card_right_top,
-        R.id.card_left_bottom,
-        R.id.card_right_bottom
-    )
+class AnswerSet(numDigits: Int, private val cards: List<CardView>): Iterable<Answer> {
     private val numAnswers = 4
     private lateinit var correctAnswer: Answer
 
@@ -21,7 +13,7 @@ class AnswerSet(numDigits: Int): Iterable<Answer> {
         for (i in 0 until numAnswers)
             answers.add(
                 Answer(
-                    buttonIds[i],
+                    cards[i],
                     randomNumbers.elementAt(i)
                 )
             )

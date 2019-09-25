@@ -1,5 +1,7 @@
 package com.example.quickmax.answers
 
-class Answer(val cardId: Int, val value: Int) {
+import androidx.cardview.widget.CardView
+
+class Answer(val card: CardView, val value: Int) {
     var correct: Boolean = false
 }

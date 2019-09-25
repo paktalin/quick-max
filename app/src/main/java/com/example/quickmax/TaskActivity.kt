@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.quickmax.answers.Answer
 import com.example.quickmax.answers.AnswerSet
@@ -28,7 +27,7 @@ class TaskActivity : AppCompatActivity() {
         val numDigits = intent.getIntExtra("num_digits", 3)
         millisToSolve = 1000 * intent.getIntExtra("sec_to_solve", 4).toLong()
         initTimer()
-        answerSet = AnswerSet(numDigits)
+        answerSet = AnswerSet(numDigits, listOf(card_left_top, card_right_top, card_left_bottom, card_right_bottom))
         setUpAnswerButtons()
         timer.start()
         startProgressBarAnimation()
@@ -43,8 +42,8 @@ class TaskActivity : AppCompatActivity() {
 
     private fun setUpAnswerButtons() {
         for (answer in answerSet) {
-            (findViewById<CardView>(answer.cardId).getChildAt(0) as TextView).text = answer.value.toString()
-            findViewById<CardView>(answer.cardId).setOnClickListener { processAnswer(answer) }
+            (answer.card.getChildAt(0) as TextView).text = answer.value.toString()
+            answer.card.setOnClickListener { processAnswer(answer) }
         }
     }
 
@@ -52,10 +51,10 @@ class TaskActivity : AppCompatActivity() {
         timer.cancel()
         colorAnimation.cancel()
         if (answer.correct)
-            findViewById<CardView>(answer.cardId).setCardBackgroundColor(resources.getColor(R.color.colorAccent))
+            answer.card.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
         else {
-            findViewById<CardView>(answer.cardId).setCardBackgroundColor(resources.getColor(R.color.colorPrimary))
-            (findViewById<CardView>(answer.cardId).getChildAt(0) as TextView).setTextColor(Color.WHITE)
+            answer.card.setCardBackgroundColor(resources.getColor(R.color.colorPrimary))
+            (answer.card.getChildAt(0) as TextView).setTextColor(Color.WHITE)
         }
 
         makeButtonsUncheckable()
@@ -72,7 +71,7 @@ class TaskActivity : AppCompatActivity() {
 
     private fun makeButtonsUncheckable() {
         for (answer in answerSet) {
-            findViewById<CardView>(answer.cardId).isClickable = false
+            answer.card.isClickable = false
         }
     }
 
