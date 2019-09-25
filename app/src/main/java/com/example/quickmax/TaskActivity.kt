@@ -18,6 +18,7 @@ class TaskActivity : AppCompatActivity() {
     private lateinit var answerSet: AnswerSet
     private var millisToSolve: Long = 4000
     private lateinit var timer: CountDownTimer
+    private lateinit var colorAnimation: ValueAnimator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +49,7 @@ class TaskActivity : AppCompatActivity() {
 
     private fun processAnswer(correct: Boolean) {
         timer.cancel()
+        colorAnimation.cancel()
         makeButtonsUncheckable()
 
         val responseFragment = ResponseFragment.newInstance().also {
@@ -69,7 +71,7 @@ class TaskActivity : AppCompatActivity() {
     private fun startProgressBarAnimation() {
         val colorFrom = Color.TRANSPARENT
         val colorTo = ContextCompat.getColor(this, R.color.transparent_red)
-        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
+        colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
         colorAnimation.duration = millisToSolve
         colorAnimation.addUpdateListener { animator ->
             layout_gradient.background.setColorFilter(animator.animatedValue as Int,
