@@ -66,12 +66,12 @@ class TaskActivity : AppCompatActivity() {
         if (answer.correct) {
             tv_timer.text = resources.getString(R.string.response_correct)
             answer.card.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
-            btn_next.background.setColorFilter(resources.getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY)
-            btn_next.setTextColor(resources.getColor(R.color.transparent_dark_black))
+            btn_next.background.setColorFilter(color(R.color.colorAccent), PorterDuff.Mode.MULTIPLY)
+            btn_next.setTextColor(color(R.color.transparent_dark_black))
         } else {
             tv_timer.text = resources.getString(R.string.response_wrong)
-            answer.card.setCardBackgroundColor(resources.getColor(R.color.colorPrimary))
-            btn_next.background.setColorFilter(resources.getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
+            answer.card.setCardBackgroundColor(color(R.color.colorPrimary))
+            btn_next.background.setColorFilter(color(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
             (answer.card.getChildAt(0) as TextView).setTextColor(Color.WHITE)
         }
     }
@@ -84,12 +84,12 @@ class TaskActivity : AppCompatActivity() {
 
     private fun startProgressBarAnimation() {
         val colorFrom = Color.TRANSPARENT
-        val colorTo = ContextCompat.getColor(this, R.color.transparent_red)
+        val colorTo = color(R.color.transparent_red)
         colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
         colorAnimation.duration = millisToSolve
         colorAnimation.addUpdateListener { animator ->
             layout_gradient.background.setColorFilter(animator.animatedValue as Int,
-                android.graphics.PorterDuff.Mode.SRC_ATOP)
+                PorterDuff.Mode.SRC_ATOP)
         }
         colorAnimation.start()
     }
@@ -109,5 +109,9 @@ class TaskActivity : AppCompatActivity() {
                     .commitAllowingStateLoss()
             }
         }
+    }
+
+    private fun color(id: Int): Int {
+        return ContextCompat.getColor(this, id)
     }
 }
