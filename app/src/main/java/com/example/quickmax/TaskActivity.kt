@@ -55,12 +55,12 @@ class TaskActivity : AppCompatActivity() {
     }
 
     private fun startProgressBarAnimation() {
-        val colorFrom = ContextCompat.getColor(this, R.color.colorPrimary)
-        val colorTo = Color.RED
+        val colorFrom = Color.TRANSPARENT
+        val colorTo = ContextCompat.getColor(this, R.color.transparent_red)
         val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
         colorAnimation.duration = timeToSolve
         colorAnimation.addUpdateListener { animator ->
-            progress_bar.progressDrawable.setColorFilter(animator.animatedValue as Int,
+            layout_gradient.background.setColorFilter(animator.animatedValue as Int,
                 android.graphics.PorterDuff.Mode.SRC_ATOP)
         }
         colorAnimation.start()
@@ -72,13 +72,9 @@ class TaskActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private val timer = object : CountDownTimer(timeToSolve, 100) {
+    private val timer = object : CountDownTimer(timeToSolve, 1000) {
         override fun onTick(millisUntilFinished: Long) {
-            val progress = ((timeToSolve - millisUntilFinished).toFloat() / timeToSolve) * 100
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                progress_bar.setProgress(progress.toInt(), true)
-            else
-                progress_bar.progress = progress.toInt()
+            tv_timer.text = (millisUntilFinished/1000).toString()
         }
 
         override fun onFinish() {
