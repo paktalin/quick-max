@@ -11,4 +11,5 @@
     <string name="time_to_solve">Time to solve: %1$s seconds</string>
     <string name="btn_next">Next</string>
     <string name="tap_to_continue">Tap anywhere to continue</string>
+    <string name="play">Play</string>
 </resources>
