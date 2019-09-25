@@ -2,6 +2,7 @@ package com.example.quickmax
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -29,6 +30,7 @@ class TaskActivity : AppCompatActivity() {
         setUpAnswerButtons()
         timer.start()
         startProgressBarAnimation()
+        btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
     }
 
     fun reload() {
