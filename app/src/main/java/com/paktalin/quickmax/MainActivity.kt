@@ -1,4 +1,4 @@
-package com.example.quickmax
+package com.paktalin.quickmax
 
 import android.content.Context
 import android.content.Intent
@@ -64,7 +64,9 @@ class MainActivity : AppCompatActivity() {
     private fun retrieveSharedPrefs() {
         val prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
         secToSolve = prefs.getInt("sec_to_solve", 4)
-        checkedCard = findViewById(prefs.getInt("checked_num_id", R.id.card_3_digits))
+        checkedCard = findViewById(prefs.getInt("checked_num_id",
+            R.id.card_3_digits
+        ))
         numDigits = numDigitsFromCard(checkedCard)
         checkedCard.isChecked = true
     }

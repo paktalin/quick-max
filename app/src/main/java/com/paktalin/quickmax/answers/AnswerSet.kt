@@ -1,6 +1,6 @@
-package com.example.quickmax.answers
+package com.paktalin.quickmax.answers
 
-import com.example.quickmax.AnswerCardView
+import com.paktalin.quickmax.AnswerCardView
 
 class AnswerSet(numDigits: Int, cards: List<AnswerCardView>): Iterable<Answer> {
     private val numAnswers = 4

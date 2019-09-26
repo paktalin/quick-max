@@ -1,7 +1,7 @@
-package com.example.quickmax
+package com.paktalin.quickmax
 
-import com.example.quickmax.answers.findSecondMax
-import com.example.quickmax.answers.generateRandom
+import com.paktalin.quickmax.answers.findSecondMax
+import com.paktalin.quickmax.answers.generateRandom
 import org.junit.Test
 
 import org.junit.Assert.*

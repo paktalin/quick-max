@@ -1,4 +1,4 @@
-package com.example.quickmax
+package com.paktalin.quickmax
 
 import android.content.Context
 import android.view.View
