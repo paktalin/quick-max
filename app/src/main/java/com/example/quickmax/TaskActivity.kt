@@ -34,7 +34,7 @@ class TaskActivity : AppCompatActivity() {
 
     private fun startNewRound() {
         answerSet = AnswerSet(numDigits, listOf(card_left_top, card_right_top, card_left_bottom, card_right_bottom))
-        setUpButtons()
+        setUpCards()
         timer.start()
         startProgressBarAnimation()
     }
@@ -44,10 +44,11 @@ class TaskActivity : AppCompatActivity() {
         millisToSolve = 1000 * intent.getIntExtra("sec_to_solve", 4).toLong()
     }
 
-    private fun setUpButtons() {
+    private fun setUpCards() {
         for (answer in answerSet) {
             getTextView(answer.card).text = answer.value.toString()
             getTextView(answer.card).setTextColor(color(this, R.color.transparent_black))
+            answer.card.isEnabled = true
             answer.card.setOnClickListener { processAnswer(answer) }
             answer.card.setCardBackgroundColor(Color.WHITE)
         }
@@ -62,7 +63,7 @@ class TaskActivity : AppCompatActivity() {
         timer.cancel()
         colorAnimation.cancel()
         setResponseText(answer)
-        makeButtonsUncheckable()
+        disableCards()
     }
 
     private fun setResponseText(answer: Answer) {
@@ -83,9 +84,9 @@ class TaskActivity : AppCompatActivity() {
         }
     }
 
-    private fun makeButtonsUncheckable() {
+    private fun disableCards() {
         for (answer in answerSet) {
-            answer.card.isClickable = false
+            answer.card.isEnabled = false
         }
     }
 
