@@ -93,6 +93,7 @@
         <com.example.quickmax.MyMaterialCard
             android:id="@+id/card_left_top"
             style="@style/MyCard"
+            app:cardBackgroundColor="#F44336"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@+id/card_left_bottom"
             app:layout_constraintEnd_toStartOf="@+id/card_right_top"

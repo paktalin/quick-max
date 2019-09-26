@@ -70,14 +70,14 @@ class TaskActivity : AppCompatActivity() {
         btn_next.visibility = View.VISIBLE
 
         if (answer.correct) {
-            answer.card.markCorrect()
+            answer.card.markCorrect(this@TaskActivity)
             tv_response.text = resources.getString(R.string.response_correct)
             btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorAccent)
             btn_next.setTextColor(color(this, R.color.transparent_dark_black))
         } else {
             answer.card.markWrong(this@TaskActivity)
             tv_response.text = resources.getString(R.string.response_wrong)
-            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, (R.color.colorPrimary))
+            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorPrimary)
             btn_next.setTextColor(Color.WHITE)
         }
     }

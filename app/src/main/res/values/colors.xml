@@ -4,5 +4,7 @@
     <color name="colorAccent">#4dd0e1</color>
     <color name="transparent_black">#83000000</color>
     <color name="transparent_dark_black">#BB000000</color>
-    <color name="transparent_red">#97FF0000</color>
+    <color name="transparent_red">#97F44336</color>
+    <color name="transparentAccent">#444DD0E1</color>
+    <color name="red">#FFF44336</color>
 </resources>
