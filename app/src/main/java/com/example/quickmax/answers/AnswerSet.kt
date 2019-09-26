@@ -1,8 +1,8 @@
 package com.example.quickmax.answers
 
-import com.google.android.material.card.MaterialCardView
+import com.example.quickmax.MyMaterialCard
 
-class AnswerSet(numDigits: Int, cards: List<MaterialCardView>): Iterable<Answer> {
+class AnswerSet(numDigits: Int, cards: List<MyMaterialCard>): Iterable<Answer> {
     private val numAnswers = 4
     private lateinit var correctAnswer: Answer
 

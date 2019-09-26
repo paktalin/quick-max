@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.quickmax.answers.Answer
 import com.example.quickmax.answers.AnswerSet
-import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.activity_task.*
 
 class TaskActivity : AppCompatActivity() {
@@ -50,21 +49,13 @@ class TaskActivity : AppCompatActivity() {
             answer.card.setOnClickListener { answer.card.isChecked = true }
             answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) }
             getTextView(answer.card).text = answer.value.toString()
-            styleCard(answer.card, CardStyle.initial(this))
+            answer.card.clean(this@TaskActivity)
         }
         btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
         btn_next.apply {
             setOnClickListener { startNewRound() }
             visibility = View.INVISIBLE
         }
-    }
-
-    private fun styleCard(card: MaterialCardView, style: CardStyle) {
-        card.isCheckable = style.isCheckable
-        card.isEnabled = style.isEnabled
-        card.isChecked = style.isChecked
-        card.setCardBackgroundColor(style.backgroundColor)
-        getTextView(card).setTextColor(style.textColor)
     }
 
     private fun processAnswer(answer: Answer) {
@@ -79,25 +70,20 @@ class TaskActivity : AppCompatActivity() {
         btn_next.visibility = View.VISIBLE
 
         if (answer.correct) {
-            styleCard(answer.card, CardStyle.correct(this))
+            answer.card.markCorrect()
             tv_response.text = resources.getString(R.string.response_correct)
-            answer.card.setCardBackgroundColor(color(this, R.color.colorAccent))
-//            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorAccent)
+            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorAccent)
             btn_next.setTextColor(color(this, R.color.transparent_dark_black))
         } else {
+            answer.card.markWrong(this@TaskActivity)
             tv_response.text = resources.getString(R.string.response_wrong)
-            answer.card.setCardBackgroundColor(color(this, R.color.colorPrimary))
             btn_next.backgroundTintList = ContextCompat.getColorStateList(this, (R.color.colorPrimary))
             btn_next.setTextColor(Color.WHITE)
-            getTextView(answer.card).setTextColor(Color.WHITE)
         }
     }
 
     private fun disableCards() {
-        for (answer in answerSet) {
-            answer.card.isCheckable = false
-            answer.card.isEnabled = false
-        }
+        answerSet.forEach { answer -> answer.card.disable()}
     }
 
     private fun startProgressBarAnimation() {
