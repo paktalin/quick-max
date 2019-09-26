@@ -48,8 +48,11 @@ class TaskActivity : AppCompatActivity() {
         for (answer in answerSet) {
             getTextView(answer.card).text = answer.value.toString()
             getTextView(answer.card).setTextColor(color(this, R.color.transparent_black))
+            answer.card.isCheckable = true
             answer.card.isEnabled = true
-            answer.card.setOnClickListener { processAnswer(answer) }
+            answer.card.isChecked = false
+            answer.card.setOnClickListener { answer.card.isChecked = true }
+            answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) }
             answer.card.setCardBackgroundColor(Color.WHITE)
         }
         btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
@@ -86,6 +89,7 @@ class TaskActivity : AppCompatActivity() {
 
     private fun disableCards() {
         for (answer in answerSet) {
+            answer.card.isCheckable = false
             answer.card.isEnabled = false
         }
     }
@@ -114,6 +118,7 @@ class TaskActivity : AppCompatActivity() {
                 btn_next.background.setColorFilter(color(this@TaskActivity, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
                 btn_next.setTextColor(Color.WHITE)
                 btn_next.visibility = View.VISIBLE
+                disableCards()
             }
         }
     }
