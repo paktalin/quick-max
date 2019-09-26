@@ -35,10 +35,6 @@ class TaskActivity : AppCompatActivity() {
 
     private fun startNewRound() {
         answerSet = AnswerSet(numDigits, listOf(card_left_top, card_right_top, card_left_bottom, card_right_bottom))
-        answerSet.forEach {answer ->
-            answer.card.setOnClickListener { answer.card.isChecked = true }
-            answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) }
-        }
         setUpCards()
         timer.start()
         startProgressBarAnimation()
@@ -50,9 +46,11 @@ class TaskActivity : AppCompatActivity() {
     }
 
     private fun setUpCards() {
-        for (answer in answerSet) {
+        answerSet.forEach {answer ->
+            answer.card.setOnClickListener { answer.card.isChecked = true }
+            answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) }
             getTextView(answer.card).text = answer.value.toString()
-            styleCard(answer.card, CardStyle.initial())
+            styleCard(answer.card, CardStyle.initial(this))
         }
         btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
         btn_next.apply {
@@ -66,7 +64,7 @@ class TaskActivity : AppCompatActivity() {
         card.isEnabled = style.isEnabled
         card.isChecked = style.isChecked
         card.setCardBackgroundColor(style.backgroundColor)
-        getTextView(card).setTextColor(color(this, style.textColorId))
+        getTextView(card).setTextColor(style.textColor)
     }
 
     private fun processAnswer(answer: Answer) {
@@ -81,9 +79,10 @@ class TaskActivity : AppCompatActivity() {
         btn_next.visibility = View.VISIBLE
 
         if (answer.correct) {
+            styleCard(answer.card, CardStyle.correct(this))
             tv_response.text = resources.getString(R.string.response_correct)
             answer.card.setCardBackgroundColor(color(this, R.color.colorAccent))
-            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorAccent)
+//            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorAccent)
             btn_next.setTextColor(color(this, R.color.transparent_dark_black))
         } else {
             tv_response.text = resources.getString(R.string.response_wrong)

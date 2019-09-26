@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity() {
     private val cardOnClickListener = View.OnClickListener { card ->
         val cardM = card as MaterialCardView
         if (!cardM.isChecked) {
-            cardM.isChecked = true
             checkedCard = cardM
-            numDigits = getTextView(card).text.toString().toInt()
+            checkedCard.isChecked = true
+            numDigits = numDigitsFromCard(checkedCard)
             listOf(card_2_digits, card_3_digits, card_4_digits).forEach { c ->
                 if (c.id != cardM.id)
                     c.isChecked = false
@@ -65,6 +65,11 @@ class MainActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
         secToSolve = prefs.getInt("sec_to_solve", 4)
         checkedCard = findViewById(prefs.getInt("checked_num_id", R.id.card_3_digits))
+        numDigits = numDigitsFromCard(checkedCard)
         checkedCard.isChecked = true
+    }
+
+    private fun numDigitsFromCard(card: MaterialCardView): Int {
+        return getTextView(card).text.toString().toInt()
     }
 }
