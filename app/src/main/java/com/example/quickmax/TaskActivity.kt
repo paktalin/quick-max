@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.quickmax.answers.Answer
 import com.example.quickmax.answers.AnswerSet
+import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.activity_task.*
 
 class TaskActivity : AppCompatActivity() {
@@ -34,6 +35,10 @@ class TaskActivity : AppCompatActivity() {
 
     private fun startNewRound() {
         answerSet = AnswerSet(numDigits, listOf(card_left_top, card_right_top, card_left_bottom, card_right_bottom))
+        answerSet.forEach {answer ->
+            answer.card.setOnClickListener { answer.card.isChecked = true }
+            answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) }
+        }
         setUpCards()
         timer.start()
         startProgressBarAnimation()
@@ -47,19 +52,21 @@ class TaskActivity : AppCompatActivity() {
     private fun setUpCards() {
         for (answer in answerSet) {
             getTextView(answer.card).text = answer.value.toString()
-            getTextView(answer.card).setTextColor(color(this, R.color.transparent_black))
-            answer.card.isCheckable = true
-            answer.card.isEnabled = true
-            answer.card.isChecked = false
-            answer.card.setOnClickListener { answer.card.isChecked = true }
-            answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) }
-            answer.card.setCardBackgroundColor(Color.WHITE)
+            styleCard(answer.card, CardStyle.initial())
         }
         btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
         btn_next.apply {
             setOnClickListener { startNewRound() }
             visibility = View.INVISIBLE
         }
+    }
+
+    private fun styleCard(card: MaterialCardView, style: CardStyle) {
+        card.isCheckable = style.isCheckable
+        card.isEnabled = style.isEnabled
+        card.isChecked = style.isChecked
+        card.setCardBackgroundColor(style.backgroundColor)
+        getTextView(card).setTextColor(color(this, style.textColorId))
     }
 
     private fun processAnswer(answer: Answer) {
