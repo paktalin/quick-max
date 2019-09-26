@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
 
-class MyMaterialCard : MaterialCardView {
+class AnswerCardView : MaterialCardView {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -25,10 +25,12 @@ class MyMaterialCard : MaterialCardView {
     }
 
     fun markCorrect(context: Context) {
+        checkedIcon = context.resources.getDrawable(R.drawable.ic_check, null)
         foregroundTintList = ContextCompat.getColorStateList(context, R.color.colorAccent)
     }
 
     fun markWrong(context: Context) {
+        checkedIcon = context.resources.getDrawable(R.drawable.ic_cancel, null)
         foregroundTintList = ContextCompat.getColorStateList(context, R.color.red)
     }
 

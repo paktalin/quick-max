@@ -90,7 +90,7 @@
         app:layout_constraintVertical_bias="0.5"
         app:layout_constraintVertical_chainStyle="packed">
 
-        <com.example.quickmax.MyMaterialCard
+        <com.example.quickmax.AnswerCardView
             android:id="@+id/card_left_top"
             style="@style/MyCard"
             app:cardBackgroundColor="#F44336"
@@ -103,9 +103,9 @@
 
             <TextView style="@style/AnswerCardText" />
 
-        </com.example.quickmax.MyMaterialCard>
+        </com.example.quickmax.AnswerCardView>
 
-        <com.example.quickmax.MyMaterialCard
+        <com.example.quickmax.AnswerCardView
             android:id="@+id/card_right_top"
             style="@style/MyCard"
             app:layout_constraintBottom_toTopOf="@id/card_right_bottom"
@@ -116,9 +116,9 @@
 
             <TextView style="@style/AnswerCardText" />
 
-        </com.example.quickmax.MyMaterialCard>
+        </com.example.quickmax.AnswerCardView>
 
-        <com.example.quickmax.MyMaterialCard
+        <com.example.quickmax.AnswerCardView
             android:id="@+id/card_left_bottom"
             style="@style/MyCard"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -129,9 +129,9 @@
 
             <TextView style="@style/AnswerCardText" />
 
-        </com.example.quickmax.MyMaterialCard>
+        </com.example.quickmax.AnswerCardView>
 
-        <com.example.quickmax.MyMaterialCard
+        <com.example.quickmax.AnswerCardView
             android:id="@+id/card_right_bottom"
             style="@style/MyCard"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -142,7 +142,7 @@
 
             <TextView style="@style/AnswerCardText" />
 
-        </com.example.quickmax.MyMaterialCard>
+        </com.example.quickmax.AnswerCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
