@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuickMax</string>
+    <string name="app_name">Quick Max</string>
     <string name="second_max">Choose the second greatest value</string>
     <string name="response_correct">Correct!</string>
     <string name="response_wrong">Wrong!</string>
