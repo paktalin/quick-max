@@ -9,11 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-        <activity android:name="com.paktalin.quickmax.TaskActivity"
-            android:screenOrientation="portrait">
+        <activity android:name="com.paktalin.quickmax.TaskActivity">
         </activity>
-        <activity android:name="com.paktalin.quickmax.MainActivity"
-            android:screenOrientation="portrait">
+        <activity android:name="com.paktalin.quickmax.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
