@@ -18,16 +18,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // restore data
         if (savedInstanceState == null) retrieveSharedPrefs()
         else restoreInstanceState(savedInstanceState)
 
+        // set up cards
         cards = mapOf(2 to card_2_digits, 3 to card_3_digits, 4 to card_4_digits)
         cards.values.forEach { card ->
             card.setOnClickListener { card.isChecked = true }
-            card.setOnCheckedChangeListener(checkedChangeListener)
+            card.setOnCheckedChangeListener { card, isChecked -> updateCards(card, isChecked) }
         }
         cards.getValue(numDigits).isChecked = true
 
+        // set up seek bar
         seek_bar.apply {
             setMinStartValue(secToSolve.toFloat()).apply()
             setOnSeekbarChangeListener { n ->
@@ -36,7 +39,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        btn_play.setOnClickListener(playClickListener)
+        // set up button play
+        btn_play.setOnClickListener { startTaskActivity() }
     }
 
     private fun restoreInstanceState(savedInstanceState: Bundle) {
@@ -50,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         outState.putInt("sec_to_solve", secToSolve)
     }
 
-    private val checkedChangeListener = MaterialCardView.OnCheckedChangeListener { card, isChecked ->
+    private fun updateCards(card: MaterialCardView, isChecked: Boolean) {
         if (isChecked && card != cards.getValue(numDigits)) {
             numDigits = getTextView(card).text.toString().toInt()
             cards.values.forEach { c ->
@@ -59,24 +63,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val playClickListener = View.OnClickListener {
-        val intent = Intent(this, TaskActivity::class.java).also { i ->
-            i.putExtra("num_digits", numDigits)
-            i.putExtra("sec_to_solve", secToSolve)
-        }
+    private fun startTaskActivity() {
+        val intent = Intent(this, TaskActivity::class.java)
+            .apply { putExtra("num_digits", numDigits) }
+            .apply { putExtra("sec_to_solve", secToSolve) }
         startActivity(intent)
     }
 
     override fun onStop() {
         super.onStop()
-        saveSelectedValues()
-    }
-
-    private fun saveSelectedValues() {
-        val editor = getSharedPreferences("my_prefs", Context.MODE_PRIVATE).edit()
-        editor.putInt("sec_to_solve", secToSolve)
-        editor.putInt("num_digits", numDigits)
-        editor.apply()
+        // save to shared preferences
+        getSharedPreferences("my_prefs", Context.MODE_PRIVATE).edit()
+            .apply { putInt("sec_to_solve", secToSolve) }
+            .apply { putInt("num_digits", numDigits) }
+            .apply()
     }
 
     private fun retrieveSharedPrefs() {
