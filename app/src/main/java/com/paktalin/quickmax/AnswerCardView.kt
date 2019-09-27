@@ -16,7 +16,7 @@ class AnswerCardView : MaterialCardView {
         defStyleAttr
     )
 
-    fun clean(context: Context) {
+    fun initial(context: Context, text: Int) {
         isCheckable = true
         isEnabled = true
         isChecked = false
@@ -27,6 +27,8 @@ class AnswerCardView : MaterialCardView {
                 R.color.transparent_black
             )
         )
+        getTextView(this).text = text.toString()
+        setOnClickListener { isChecked = true }
     }
 
     fun markCorrect(context: Context) {

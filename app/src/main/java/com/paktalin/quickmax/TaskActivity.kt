@@ -15,6 +15,7 @@ import com.paktalin.quickmax.answers.Answer
 import com.paktalin.quickmax.answers.AnswerSet
 import kotlinx.android.synthetic.main.activity_task.*
 
+// TODO save state
 class TaskActivity : AppCompatActivity() {
 
     private lateinit var answerSet: AnswerSet
@@ -49,10 +50,8 @@ class TaskActivity : AppCompatActivity() {
 
     private fun setUpCards() {
         answerSet.forEach {answer ->
-            answer.card.setOnClickListener { answer.card.isChecked = true }
             answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) }
-            getTextView(answer.card).text = answer.value.toString()
-            answer.card.clean(this@TaskActivity)
+            answer.card.initial(this@TaskActivity, answer.value)
         }
         btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
         btn_next.apply {
@@ -65,7 +64,7 @@ class TaskActivity : AppCompatActivity() {
         timer.cancel()
         colorAnimation.cancel()
         setResponseText(answer)
-        disableCards()
+        answerSet.forEach { answer -> answer.card.disable()}
     }
 
     private fun setResponseText(answer: Answer) {
@@ -83,10 +82,6 @@ class TaskActivity : AppCompatActivity() {
             btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorPrimary)
             btn_next.setTextColor(Color.WHITE)
         }
-    }
-
-    private fun disableCards() {
-        answerSet.forEach { answer -> answer.card.disable()}
     }
 
     private fun startProgressBarAnimation() {
@@ -114,7 +109,7 @@ class TaskActivity : AppCompatActivity() {
                 btn_next.backgroundTintList = ContextCompat.getColorStateList(this@TaskActivity, R.color.colorPrimary)
                 btn_next.setTextColor(Color.WHITE)
                 btn_next.visibility = View.VISIBLE
-                disableCards()
+                answerSet.forEach { answer -> answer.card.disable()}
             }
         }
     }
