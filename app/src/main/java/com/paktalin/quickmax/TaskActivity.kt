@@ -8,7 +8,6 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.TypedValue
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.paktalin.quickmax.answers.Answer
@@ -40,7 +39,7 @@ class TaskActivity : AppCompatActivity() {
         )
         setUpCards()
         timer.start()
-        startProgressBarAnimation()
+        startColorAnimation()
     }
 
     private fun retrieveExtras() {
@@ -49,14 +48,14 @@ class TaskActivity : AppCompatActivity() {
     }
 
     private fun setUpCards() {
-        answerSet.forEach {answer ->
+        answerSet.forEach { answer ->
             answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) }
             answer.card.initial(this@TaskActivity, answer.value)
         }
         btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
         btn_next.apply {
             setOnClickListener { startNewRound() }
-            visibility = View.INVISIBLE
+            initial()
         }
     }
 
@@ -69,27 +68,23 @@ class TaskActivity : AppCompatActivity() {
 
     private fun setResponseText(answer: Answer) {
         tv_response.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
-        btn_next.visibility = View.VISIBLE
 
         if (answer.correct) {
             answer.card.markCorrect(this@TaskActivity)
             tv_response.text = resources.getString(R.string.response_correct)
-            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorAccent)
-            btn_next.setTextColor(color(this, R.color.transparent_dark_black))
+            btn_next.correct(this@TaskActivity)
         } else {
             answer.card.markWrong(this@TaskActivity)
             tv_response.text = resources.getString(R.string.response_wrong)
-            btn_next.backgroundTintList = ContextCompat.getColorStateList(this, R.color.colorPrimary)
-            btn_next.setTextColor(Color.WHITE)
+            btn_next.incorrect(this@TaskActivity)
         }
     }
 
-    private fun startProgressBarAnimation() {
+    private fun startColorAnimation() {
         val colorFrom = Color.TRANSPARENT
-        val colorTo =
-            color(this, R.color.transparent_red)
+        val colorTo = color(this, R.color.transparent_red)
         colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
-        colorAnimation.duration = millisToSolve
+            .apply { duration = millisToSolve }
         colorAnimation.addUpdateListener { animator ->
             layout_gradient.background.setColorFilter(animator.animatedValue as Int,
                 PorterDuff.Mode.SRC_ATOP)
@@ -106,9 +101,7 @@ class TaskActivity : AppCompatActivity() {
             override fun onFinish() {
                 tv_response.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
                 tv_response.text = resources.getString(R.string.time_is_over)
-                btn_next.backgroundTintList = ContextCompat.getColorStateList(this@TaskActivity, R.color.colorPrimary)
-                btn_next.setTextColor(Color.WHITE)
-                btn_next.visibility = View.VISIBLE
+                btn_next.incorrect(this@TaskActivity)
                 answerSet.forEach { answer -> answer.card.disable()}
             }
         }
