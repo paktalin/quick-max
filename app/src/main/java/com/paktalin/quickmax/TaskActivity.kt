@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.commit
 import com.paktalin.quickmax.answers.Answer
 import com.paktalin.quickmax.answers.AnswerSet
 import kotlinx.android.synthetic.main.activity_task.*
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_task.*
 // TODO save state
 class TaskActivity : AppCompatActivity() {
 
-    private lateinit var answerSet: AnswerSet
+    internal lateinit var answerSet: AnswerSet
     private var millisToSolve: Long = 4000
     private var numDigits: Int = 3
     private lateinit var timer: CountDownTimer
@@ -27,12 +27,22 @@ class TaskActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
 
+        btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
         retrieveExtras()
         initTimer()
         startNewRound()
     }
 
-    private fun startNewRound() {
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // TODO save selection
+        // TODO save animation state
+        // TODO save timer
+        // TODO save button next state
+        // TODO save
+    }
+
+    internal fun startNewRound() {
         answerSet = AnswerSet(
             numDigits,
             listOf(card_left_top, card_right_top, card_left_bottom, card_right_bottom)
@@ -52,11 +62,6 @@ class TaskActivity : AppCompatActivity() {
             answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) }
             answer.card.initial(this@TaskActivity, answer.value)
         }
-        btn_back.setOnClickListener { startActivity(Intent(this@TaskActivity, MainActivity::class.java)) }
-        btn_next.apply {
-            setOnClickListener { startNewRound() }
-            initial()
-        }
     }
 
     private fun processAnswer(answer: Answer) {
@@ -72,11 +77,15 @@ class TaskActivity : AppCompatActivity() {
         if (answer.correct) {
             answer.card.markCorrect(this@TaskActivity)
             tv_response.text = resources.getString(R.string.response_correct)
-            btn_next.correct(this@TaskActivity)
+            supportFragmentManager.commit(true) {
+                add(R.id.main_layout, ButtonNextFragment().apply { arguments = Bundle().apply { putBoolean("correct", true) } })
+            }
         } else {
             answer.card.markWrong(this@TaskActivity)
             tv_response.text = resources.getString(R.string.response_wrong)
-            btn_next.incorrect(this@TaskActivity)
+            supportFragmentManager.commit(true) {
+                add(R.id.main_layout, ButtonNextFragment().apply { arguments = Bundle().apply { putBoolean("correct", false) } })
+            }
         }
     }
 
@@ -101,7 +110,10 @@ class TaskActivity : AppCompatActivity() {
             override fun onFinish() {
                 tv_response.setTextSize(TypedValue.COMPLEX_UNIT_SP, resources.getDimension(R.dimen.response_text_size))
                 tv_response.text = resources.getString(R.string.time_is_over)
-                btn_next.incorrect(this@TaskActivity)
+
+                supportFragmentManager.commit(true) {
+                    add(R.id.main_layout, ButtonNextFragment().apply { arguments = Bundle().apply { putBoolean("correct", false) } })
+                }
                 answerSet.forEach { answer -> answer.card.disable()}
             }
         }
