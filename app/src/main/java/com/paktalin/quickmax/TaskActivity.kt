@@ -3,6 +3,8 @@ package com.paktalin.quickmax
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.paktalin.quickmax.answers.Answer
 import com.paktalin.quickmax.answers.AnswerSet
 import kotlinx.android.synthetic.main.activity_task.*
@@ -13,6 +15,8 @@ class TaskActivity : AppCompatActivity() {
     private lateinit var answerSet: AnswerSet
     private var millisToSolve: Long = 4000
     private var numDigits: Int = 3
+
+    private var timerFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +30,18 @@ class TaskActivity : AppCompatActivity() {
                 )
             )
         }
-        retrieveExtras()
-        startNewRound()
+
+        if (savedInstanceState != null)
+            timerFragment = supportFragmentManager.getFragment(savedInstanceState, "timer_fragment")
+        else {
+            retrieveExtras()
+            startNewRound()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        supportFragmentManager.putFragment(outState, "timer_fragment", timerFragment!!)
         // TODO save selection
         // TODO save animation state
         // TODO save timer
@@ -44,7 +54,13 @@ class TaskActivity : AppCompatActivity() {
             numDigits,
             listOf(card_left_top, card_right_top, card_left_bottom, card_right_bottom)
         )
-        addTimerFragment(supportFragmentManager, millisToSolve)
+        if (timerFragment == null)
+            timerFragment = TimerFragment().apply {
+                arguments = Bundle().apply { putLong("millis_to_solve", millisToSolve) }
+            }
+        supportFragmentManager.commit(true) {
+            replace(R.id.fragment_timer, timerFragment!!, "timer_fragment")
+        }
         setUpCards()
         removeButtonNextFragment(supportFragmentManager)
     }
