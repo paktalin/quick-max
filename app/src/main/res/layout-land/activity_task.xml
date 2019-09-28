@@ -46,9 +46,11 @@
         android:text="@string/response_correct"
         android:textColor="@android:color/white"
         android:textSize="60sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cv_task"
         app:layout_constraintStart_toStartOf="@+id/cv_task"
-        app:layout_constraintTop_toTopOf="@+id/layout_answers"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25"
         app:layout_constraintVertical_chainStyle="spread" />
 
     <com.google.android.material.card.MaterialCardView
