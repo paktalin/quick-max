@@ -8,11 +8,10 @@
     android:background="#DADADA"
     tools:context="com.paktalin.quickmax.TaskActivity">
 
-    <View
-        android:id="@+id/layout_gradient"
+    <FrameLayout
+        android:id="@+id/fragment_timer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/gradient"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,22 +35,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
-
-    <TextView
-        android:id="@+id/tv_response"
-        style="@style/TextAppearance.MaterialComponents.Headline4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/response_correct"
-        android:textColor="@android:color/white"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/cv_task"
-        app:layout_constraintStart_toStartOf="@+id/cv_task"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25"
-        app:layout_constraintVertical_chainStyle="spread" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_task"
