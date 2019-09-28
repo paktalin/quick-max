@@ -24,15 +24,6 @@ fun textSize(resources: Resources): Float {
     return resources.getDimension(R.dimen.response_text_size) / screenDensity
 }
 
-fun addTimerFragment(supportFragmentManager: FragmentManager, millisToSolve: Long) {
-    val timerFragment = TimerFragment().apply {
-        arguments = Bundle().apply { putLong("millis_to_solve", millisToSolve) }
-    }
-    supportFragmentManager.commit(true) {
-        replace(R.id.fragment_timer, timerFragment, "timer_fragment")
-    }
-}
-
 fun addButtonNextFragment(supportFragmentManager: FragmentManager, correct: Boolean) {
     val fragmentBtnNext = ButtonNextFragment().apply {
         arguments = Bundle().apply { putBoolean("correct", correct) }

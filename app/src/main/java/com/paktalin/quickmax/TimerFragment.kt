@@ -13,28 +13,37 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
-private const val RESPONSE_CORRECT = "Correct!"
-private const val RESPONSE_WRONG = "Wrong!"
-private const val RESPONSE_TIME_OVER = "Time is over!"
+private const val interval: Long = 1000
+
+private const val KEY_MILLIS_TO_SOLVE = "millis_to_solve"
+private const val KEY_COLOR_FROM = "color_from"
+private const val KEY_STATE = "state"
+
+enum class State(val response: String?) {
+    IN_PROGRESS(null),
+    CORRECT("Correct!"),
+    WRONG("Wrong!"),
+    TIME_IS_OVER("Time is over!")
+}
 
 class TimerFragment : Fragment() {
 
-    private lateinit var timer: CountDownTimer
     private lateinit var tvResponse: TextView
-    private var colorAnimation: ValueAnimator? = null
+    private lateinit var state: State
+    private lateinit var mView: View
 
     private var millisToSolve: Long = 0
     private var colorFrom: Int = -1
 
-    private val interval: Long = 1000
-    private var finished: Boolean = false
-    private lateinit var mView: View
-    private var restoredColor: Int? = null
+    private var colorAnimation: ValueAnimator? = null
+    private  var timer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        millisToSolve = arguments!!.getLong("millis_to_solve")
+
+        millisToSolve = arguments!!.getLong(KEY_MILLIS_TO_SOLVE)
         colorFrom = Color.TRANSPARENT
+        state = State.IN_PROGRESS
     }
 
     override fun onCreateView(
@@ -48,72 +57,58 @@ class TimerFragment : Fragment() {
 
         if (savedInstanceState != null)
             restoreState(savedInstanceState)
-        if (!finished) {
+        if (state == State.IN_PROGRESS) {
             initTimer()
             initColorAnimation()
         }
-
         return view
     }
 
     override fun onStart() {
         super.onStart()
-        if (!finished) {
-            timer?.start()
-            colorAnimation?.start()
-        }
+        timer?.start()
+        colorAnimation?.start()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        outState.putString(KEY_STATE, state.name)
 
-        val text = tvResponse.text.toString()
-        if (text == RESPONSE_CORRECT || text == RESPONSE_WRONG || text == RESPONSE_TIME_OVER)
-            outState.putString("response_text", text)
-        else
-            outState.putLong("millis_to_solve", millisToSolve)
-
-        colorAnimation?.apply {
-            if (animatedValue != null)
-                restoredColor = animatedValue as Int
+        if (state == State.IN_PROGRESS)
+            outState.putLong(KEY_MILLIS_TO_SOLVE, millisToSolve)
+        colorAnimation?.let { animator ->
+            animator.animatedValue?.let {
+                    value -> colorFrom = value as Int
+            }
         }
-        restoredColor?.let { outState.putInt("color_from", it) }
+        outState.putInt(KEY_COLOR_FROM, colorFrom)
     }
 
-    fun cancelCorrect() {
-        cancel()
-        tvResponse.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize(resources))
-        tvResponse.text = RESPONSE_CORRECT
+    fun cancel(state: State) {
+        this.state = state
+        setResult()
+        timer?.cancel()
+        colorAnimation?.cancel() }
+
+    private fun setResult() {
+        if (isAdded) {
+            tvResponse.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize(resources))
+            tvResponse.text = state.response
+        }
     }
 
-    fun cancelWrong() {
-        cancel()
-        tvResponse.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize(resources))
-        tvResponse.text = RESPONSE_WRONG
-    }
+    private val setBackgroundFilter = {color: Int ->
+        if (isAdded) mView.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP) }
 
     private fun restoreState(savedInstanceState: Bundle) {
-        val responseText = savedInstanceState.getString("response_text")
-        if (responseText != null) {
-            tvResponse.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize(resources))
-            tvResponse.text = responseText
-            restoredColor = savedInstanceState.getInt("color_from")
-            restoredColor?.let { setBackgroundFilter(it) }
-            finished = true
+        state = State.valueOf(savedInstanceState.getString(KEY_STATE)!!)
+        colorFrom = savedInstanceState.getInt(KEY_COLOR_FROM)
+        if (state == State.IN_PROGRESS) {
+            millisToSolve = savedInstanceState.getLong(KEY_MILLIS_TO_SOLVE)
         } else {
-            millisToSolve = savedInstanceState.getLong("millis_to_solve")
-            colorFrom = savedInstanceState.getInt("color_from")
+            setResult()
+            setBackgroundFilter(colorFrom)
         }
-    }
-
-    private fun cancel() {
-        timer.cancel()
-        colorAnimation?.cancel()
-    }
-
-    private fun setBackgroundFilter(color: Int) {
-        if (isAdded)
-           mView.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
     }
 
     private fun initTimer() {
@@ -124,12 +119,9 @@ class TimerFragment : Fragment() {
             }
 
             override fun onFinish() {
-                if (isAdded) {
-                    tvResponse.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize(resources))
-                    tvResponse.text = RESPONSE_TIME_OVER
-                    (activity as TaskActivity).onTimeOver()
-                }
-
+                this@TimerFragment.state = State.TIME_IS_OVER
+                setResult()
+                if (isAdded) (activity as TaskActivity).onTimeOver()
             }
         }
     }

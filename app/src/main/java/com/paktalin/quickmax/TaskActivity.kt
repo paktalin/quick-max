@@ -16,7 +16,7 @@ class TaskActivity : AppCompatActivity() {
     private var millisToSolve: Long = 4000
     private var numDigits: Int = 3
 
-    private var timerFragment: Fragment? = null
+    private lateinit var timerFragment: TimerFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +32,11 @@ class TaskActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState != null)
-            timerFragment = supportFragmentManager.getFragment(savedInstanceState, "timer_fragment")
+            timerFragment = supportFragmentManager.getFragment(savedInstanceState, "timer_fragment") as TimerFragment
         else {
+            timerFragment = TimerFragment().apply {
+                arguments = Bundle().apply { putLong("millis_to_solve", millisToSolve) }
+            }
             retrieveExtras()
             startNewRound()
         }
@@ -54,12 +57,8 @@ class TaskActivity : AppCompatActivity() {
             numDigits,
             listOf(card_left_top, card_right_top, card_left_bottom, card_right_bottom)
         )
-        if (timerFragment == null)
-            timerFragment = TimerFragment().apply {
-                arguments = Bundle().apply { putLong("millis_to_solve", millisToSolve) }
-            }
         supportFragmentManager.commit(true) {
-            replace(R.id.fragment_timer, timerFragment!!, "timer_fragment")
+            replace(R.id.fragment_timer, timerFragment, "timer_fragment")
         }
         setUpCards()
         removeButtonNextFragment(supportFragmentManager)
@@ -82,11 +81,11 @@ class TaskActivity : AppCompatActivity() {
     private fun processAnswer(answer: Answer) {
         if (answer.correct) {
             answer.card.markCorrect(this@TaskActivity)
-            (supportFragmentManager.findFragmentByTag("timer_fragment") as TimerFragment).cancelCorrect()
+            timerFragment.cancel(State.CORRECT)
             addButtonNextFragment(supportFragmentManager, true)
         } else {
             answer.card.markWrong(this@TaskActivity)
-            (supportFragmentManager.findFragmentByTag("timer_fragment") as TimerFragment).cancelWrong()
+            timerFragment.cancel(State.WRONG)
             addButtonNextFragment(supportFragmentManager, false)
         }
         answerSet.forEach { answer -> answer.card.disable() }
