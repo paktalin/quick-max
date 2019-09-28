@@ -94,6 +94,6 @@ class TaskActivity : AppCompatActivity() {
 
     fun onTimeOver() {
         addButtonNextFragment(supportFragmentManager, false)
-        answerSet.forEach { answer -> answer.card.disable() }
+//        answerSet.forEach { answer -> answer.card.disable() }
     }
 }
