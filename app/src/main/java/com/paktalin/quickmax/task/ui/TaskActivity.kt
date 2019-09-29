@@ -8,7 +8,6 @@ import com.paktalin.quickmax.MainActivity
 import com.paktalin.quickmax.R
 import com.paktalin.quickmax.addButtonNextFragment
 import com.paktalin.quickmax.removeButtonNextFragment
-import com.paktalin.quickmax.task.model.Answer
 import com.paktalin.quickmax.task.model.AnswerSet
 import kotlinx.android.synthetic.main.activity_task.*
 
@@ -35,33 +34,40 @@ class TaskActivity : AppCompatActivity() {
             )
         }
 
-        if (savedInstanceState != null)
-            timerFragment = supportFragmentManager.getFragment(savedInstanceState, "timer_fragment") as TimerFragment
-        else {
+        if (savedInstanceState != null) {
+            timerFragment = supportFragmentManager.getFragment(
+                savedInstanceState,
+                "timer_fragment"
+            ) as TimerFragment
+            answersFragment = supportFragmentManager.getFragment(savedInstanceState, "answers_fragment") as AnswersFragment
+        } else {
             retrieveExtras()
+            timerFragment = TimerFragment()
+                .apply { arguments = Bundle().apply { putLong("millis_to_solve", millisToSolve) } }
+                .apply { supportFragmentManager.commit(true) { add(R.id.container_timer, this@apply, "timer_fragment")} }
+
+            answersFragment = AnswersFragment().apply {
+                arguments = Bundle().apply { putInt("num_digits", numDigits) }
+            }
+            supportFragmentManager.commit(true) {
+                replace(R.id.container_answers, answersFragment, "answers_fragment")
+            }
             startNewRound()
         }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        supportFragmentManager.putFragment(outState, "timer_fragment", timerFragment!!)
+        supportFragmentManager.putFragment(outState, "timer_fragment", timerFragment)
+        supportFragmentManager.putFragment(outState, "answers_fragment", answersFragment)
+
         // TODO save selection
     }
 
     internal fun startNewRound() {
-        timerFragment = TimerFragment().apply {
-            arguments = Bundle().apply { putLong("millis_to_solve", millisToSolve) }
-        }
-        supportFragmentManager.commit(true) {
-            replace(R.id.container_timer, timerFragment, "timer_fragment")
-        }
-        answersFragment = AnswersFragment().apply {
-            arguments = Bundle().apply { putInt("num_digits", numDigits) }
-        }
-        supportFragmentManager.commit(true) {
-            replace(R.id.container_answers, answersFragment, "answers_fragment")
-        }
+        timerFragment.startNewRound()
+        answersFragment.startNewRound()
         removeButtonNextFragment(supportFragmentManager)
     }
 

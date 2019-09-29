@@ -10,11 +10,12 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.paktalin.quickmax.R
 import com.paktalin.quickmax.color
-import com.paktalin.quickmax.textSize
+import com.paktalin.quickmax.textSizeLarge
+import com.paktalin.quickmax.textSizeSmall
+import kotlinx.android.synthetic.main.fragment_timer.view.*
 
 private const val interval: Long = 1000
 
@@ -23,6 +24,7 @@ private const val KEY_COLOR_FROM = "color_from"
 private const val KEY_STATE = "state"
 
 enum class State(val response: String?) {
+    NONE(null),
     IN_PROGRESS(null),
     CORRECT("Correct!"),
     WRONG("Wrong!"),
@@ -31,7 +33,6 @@ enum class State(val response: String?) {
 
 class TimerFragment : Fragment() {
 
-    private lateinit var tvResponse: TextView
     private lateinit var state: State
     private lateinit var mView: View
 
@@ -41,12 +42,13 @@ class TimerFragment : Fragment() {
     private var colorAnimation: ValueAnimator? = null
     private  var timer: CountDownTimer? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         millisToSolve = arguments!!.getLong(KEY_MILLIS_TO_SOLVE)
         colorFrom = Color.TRANSPARENT
-        state = State.IN_PROGRESS
+        state = State.NONE
     }
 
     override fun onCreateView(
@@ -56,24 +58,12 @@ class TimerFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_timer, container, false)
         mView = view
-        tvResponse = mView.findViewById(R.id.tv_response)
 
         if (savedInstanceState != null)
             restoreState(savedInstanceState)
-        if (state == State.IN_PROGRESS) {
-            initTimer()
-            initColorAnimation()
-        } else {
-            setResult()
-            setBackgroundFilter(colorFrom)
-        }
+        else
+            startNewRound()
         return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-        timer?.start()
-        colorAnimation?.start()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -89,6 +79,24 @@ class TimerFragment : Fragment() {
         outState.putInt(KEY_COLOR_FROM, colorFrom)
     }
 
+    fun startNewRound() {
+        if (isAdded) {
+            state = State.IN_PROGRESS
+            mView.tv_response
+                .apply { text = "" }
+                .apply { setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge(resources)) }
+            if (timer == null)
+                initTimer()
+            timer?.start()
+
+
+
+            if (colorAnimation == null)
+                initColorAnimation()
+            colorAnimation?.start()
+        }
+    }
+
     fun cancel(state: State) {
         this.state = state
         setResult()
@@ -97,27 +105,36 @@ class TimerFragment : Fragment() {
 
     private fun setResult() {
         if (isAdded) {
-            tvResponse.setTextSize(TypedValue.COMPLEX_UNIT_SP,
-                textSize(resources)
-            )
-            tvResponse.text = state.response
+            mView.tv_response
+                .apply { text = "" }
+                .apply { setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSmall(resources)) }
+                .apply { text = state.response }
         }
     }
 
     private val setBackgroundFilter = {color: Int ->
         if (isAdded) mView.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP) }
 
+    private val startTimer  = {}
+
     private fun restoreState(savedInstanceState: Bundle) {
         state = State.valueOf(savedInstanceState.getString(KEY_STATE)!!)
         colorFrom = savedInstanceState.getInt(KEY_COLOR_FROM)
-        millisToSolve = savedInstanceState.getLong(KEY_MILLIS_TO_SOLVE, 0)
+        millisToSolve = savedInstanceState.getLong(KEY_MILLIS_TO_SOLVE)
+
+        if (state == State.IN_PROGRESS)
+            startNewRound()
+        else {
+            setResult()
+            setBackgroundFilter(colorFrom)
+        }
     }
 
     private fun initTimer() {
         timer = object : CountDownTimer(millisToSolve, interval) {
             override fun onTick(millisUntilFinished: Long) {
                 millisToSolve = millisUntilFinished
-                tvResponse.text = (millisUntilFinished / interval).toString()
+                mView.tv_response.text = (millisUntilFinished / interval).toString()
             }
 
             override fun onFinish() {

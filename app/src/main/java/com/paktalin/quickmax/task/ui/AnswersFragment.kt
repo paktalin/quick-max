@@ -15,6 +15,7 @@ class AnswersFragment : Fragment() {
     private lateinit var answerSet: AnswerSet
     private lateinit var mView: View
     private var numDigits: Int = 0
+    private var isReady: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,18 +29,29 @@ class AnswersFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_answers, container, false)
         mView = view
-        answerSet = AnswerSet(
-            numDigits,
-            listOf(view.card_left_top, view.card_right_top, view.card_left_bottom, view.card_right_bottom)
-        )
-        answerSet.forEach { answer ->
-            answer.card.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) processAnswer(answer)
-            }
-            answer.card.initial(context!!, answer.value)
-        }
-
+        isReady = true
+        startNewRound()
         return view
+    }
+
+    fun startNewRound() {
+        if (isReady) {
+            answerSet = AnswerSet(
+                numDigits,
+                listOf(
+                    mView.card_left_top,
+                    mView.card_right_top,
+                    mView.card_left_bottom,
+                    mView.card_right_bottom
+                )
+            )
+            answerSet.forEach { answer ->
+                answer.card.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) processAnswer(answer)
+                }
+                answer.card.initial(context!!, answer.value)
+            }
+        }
     }
 
     private fun processAnswer(answer: Answer) {

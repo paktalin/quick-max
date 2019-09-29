@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startTaskActivity() {
-        val intent = Intent(this, TaskActivity::class.java)
+        val intent = Intent(this@MainActivity, TaskActivity::class.java)
             .apply { putExtra("num_digits", numDigits) }
             .apply { putExtra("sec_to_solve", secToSolve) }
         startActivity(intent)

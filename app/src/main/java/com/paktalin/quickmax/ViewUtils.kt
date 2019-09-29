@@ -20,9 +20,14 @@ fun color(context: Context, id: Int): Int {
     return ContextCompat.getColor(context, id)
 }
 
-fun textSize(resources: Resources): Float {
+fun textSizeSmall(resources: Resources): Float {
     val screenDensity = resources.displayMetrics.density
-    return resources.getDimension(R.dimen.response_text_size) / screenDensity
+    return resources.getDimension(R.dimen.response_small) / screenDensity
+}
+
+fun textSizeLarge(resources: Resources): Float {
+    val screenDensity = resources.displayMetrics.density
+    return resources.getDimension(R.dimen.response_large) / screenDensity
 }
 
 fun addButtonNextFragment(supportFragmentManager: FragmentManager, correct: Boolean) {
