@@ -17,9 +17,11 @@ import com.paktalin.quickmax.textSizeLarge
 import com.paktalin.quickmax.textSizeSmall
 import kotlinx.android.synthetic.main.fragment_timer.view.*
 
-private const val interval: Long = 1000
+private const val COUNTDOWN_INTERVAL: Long = 1000
+private const val COLOR_FROM: Int = Color.TRANSPARENT
 
 private const val KEY_MILLIS_TO_SOLVE = "millis_to_solve"
+private const val KEY_MILLIS_LEFT = "millis_left"
 private const val KEY_COLOR_FROM = "color_from"
 private const val KEY_STATE = "state"
 
@@ -32,23 +34,19 @@ enum class State(val response: String?) {
 }
 
 class TimerFragment : Fragment() {
-
-    private lateinit var state: State
     private lateinit var mView: View
 
     private var millisToSolve: Long = 0
-    private var colorFrom: Int = -1
+    private var state: State = State.NONE
 
     private var colorAnimation: ValueAnimator? = null
-    private  var timer: CountDownTimer? = null
-
+    private var timer: CountDownTimer? = null
+    private var millisLeft: Long = 0
+    private var colorFrom: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         millisToSolve = arguments!!.getLong(KEY_MILLIS_TO_SOLVE)
-        colorFrom = Color.TRANSPARENT
-        state = State.NONE
     }
 
     override fun onCreateView(
@@ -70,30 +68,26 @@ class TimerFragment : Fragment() {
         super.onSaveInstanceState(outState)
         outState.putString(KEY_STATE, state.name)
         outState.putLong(KEY_MILLIS_TO_SOLVE, millisToSolve)
-        // try to update colorFrom from animation
+        outState.putLong(KEY_MILLIS_LEFT, millisLeft)
+        outState.putInt(KEY_COLOR_FROM, colorFrom)
+
+        // try to update COLOR_FROM from animation
         colorAnimation?.let { animator ->
-            animator.animatedValue?.let {
-                value -> colorFrom = value as Int
+            animator.animatedValue?.let { value ->
+                outState.putInt(KEY_COLOR_FROM, value as Int)
             }
         }
-        outState.putInt(KEY_COLOR_FROM, colorFrom)
     }
 
-    fun startNewRound() {
+    fun startNewRound(left: Long = millisToSolve, from: Int = COLOR_FROM) {
         if (isAdded) {
             state = State.IN_PROGRESS
             mView.tv_response
                 .apply { text = "" }
                 .apply { setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeLarge(resources)) }
-            if (timer == null)
-                initTimer()
-            timer?.start()
 
-
-
-            if (colorAnimation == null)
-                initColorAnimation()
-            colorAnimation?.start()
+            timer = initTimer(left).start()
+            colorAnimation = initColorAnimation(from).apply { start() }
         }
     }
 
@@ -101,7 +95,8 @@ class TimerFragment : Fragment() {
         this.state = state
         setResult()
         timer?.cancel()
-        colorAnimation?.cancel() }
+        colorAnimation?.cancel()
+    }
 
     private fun setResult() {
         if (isAdded) {
@@ -112,29 +107,29 @@ class TimerFragment : Fragment() {
         }
     }
 
-    private val setBackgroundFilter = {color: Int ->
-        if (isAdded) mView.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP) }
+    private val setBackgroundFilter = { color: Int ->
+        if (isAdded) mView.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+    }
 
-    private val startTimer  = {}
 
     private fun restoreState(savedInstanceState: Bundle) {
         state = State.valueOf(savedInstanceState.getString(KEY_STATE)!!)
-        colorFrom = savedInstanceState.getInt(KEY_COLOR_FROM)
         millisToSolve = savedInstanceState.getLong(KEY_MILLIS_TO_SOLVE)
+        colorFrom = savedInstanceState.getInt(KEY_COLOR_FROM)
 
         if (state == State.IN_PROGRESS)
-            startNewRound()
+            startNewRound(savedInstanceState.getLong(KEY_MILLIS_LEFT), colorFrom)
         else {
             setResult()
             setBackgroundFilter(colorFrom)
         }
     }
 
-    private fun initTimer() {
-        timer = object : CountDownTimer(millisToSolve, interval) {
+    private fun initTimer(toSolve: Long): CountDownTimer {
+        return object : CountDownTimer(toSolve, COUNTDOWN_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
-                millisToSolve = millisUntilFinished
-                mView.tv_response.text = (millisUntilFinished / interval).toString()
+                millisLeft = millisUntilFinished
+                mView.tv_response.text = (millisUntilFinished / COUNTDOWN_INTERVAL).toString()
             }
 
             override fun onFinish() {
@@ -145,13 +140,10 @@ class TimerFragment : Fragment() {
         }
     }
 
-    private fun initColorAnimation() {
-        val colorTo =
-            color(context!!, R.color.transparent_red)
-        colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
+    private fun initColorAnimation(colorFrom: Int): ValueAnimator {
+        val colorTo = color(context!!, R.color.transparent_red)
+        return ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
             .apply { duration = millisToSolve }
-        colorAnimation?.addUpdateListener { animator ->
-            setBackgroundFilter(animator.animatedValue as Int)
-        }
+            .apply { addUpdateListener { a -> setBackgroundFilter(a.animatedValue as Int) } }
     }
 }
