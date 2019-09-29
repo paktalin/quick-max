@@ -6,16 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.paktalin.quickmax.R
-import com.paktalin.quickmax.addButtonNextFragment
 import com.paktalin.quickmax.task.model.Answer
 import com.paktalin.quickmax.task.model.AnswerSet
-import kotlinx.android.synthetic.main.fragment_answers.view.*
 
 class AnswersFragment : Fragment() {
     private lateinit var answerSet: AnswerSet
     private lateinit var mView: View
     private var numDigits: Int = 0
-    private var isReady: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +30,7 @@ class AnswersFragment : Fragment() {
         if (savedInstanceState != null)
             restoreState(savedInstanceState)
         else
-            answerSet = AnswerSet(numDigits, mView)
-        isReady = true
-        startNewRound()
+            startNewRound()
         return view
     }
 
@@ -44,19 +39,21 @@ class AnswersFragment : Fragment() {
         outState.putIntArray("answers", answerSet.answers.map { answer -> answer.value }.toIntArray())
     }
 
-    fun startNewRound() {
-        if (isReady) {
-            answerSet.forEach { answer ->
-                answer.card
-                    .apply { setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) } }
-                    .apply { initial(context!!, answer.value) }
-            }
+    fun startNewRound(answerSet: AnswerSet? = null) {
+        if (isAdded) {
+            this.answerSet = answerSet ?: AnswerSet(numDigits, mView)
+                .apply { setOnCheckedChangeListener { answer -> processAnswer(answer) } }
+                .apply { setInitialStyle(mView.context) }
         }
+    }
+
+    fun disableCards() {
+        answerSet.forEach { answer -> answer.card.disable() }
     }
 
     private fun restoreState(savedInstanceState: Bundle) {
         val restoredAnswers = savedInstanceState.getIntArray("answers")!!
-        answerSet = AnswerSet(restoredAnswers, mView)
+        startNewRound(AnswerSet(restoredAnswers, mView))
     }
 
     private fun processAnswer(answer: Answer) {
@@ -67,6 +64,6 @@ class AnswersFragment : Fragment() {
             answer.card.markWrong(context!!)
             (activity as TaskActivity).onResponseWrong()
         }
-        answerSet.forEach { answer -> answer.card.disable() }
+        disableCards()
     }
 }

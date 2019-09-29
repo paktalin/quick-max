@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.activity_task.*
 // TODO save state
 class TaskActivity : AppCompatActivity() {
 
-    private lateinit var answerSet: AnswerSet
     private var millisToSolve: Long = 4000
     private var numDigits: Int = 3
 
@@ -56,8 +55,6 @@ class TaskActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         supportFragmentManager.putFragment(outState, "timer_fragment", timerFragment)
         supportFragmentManager.putFragment(outState, "answers_fragment", answersFragment)
-
-        // TODO save selection
     }
 
     internal fun startNewRound() {
@@ -91,6 +88,6 @@ class TaskActivity : AppCompatActivity() {
 
     fun onTimeOver() {
         addButtonNextFragment(supportFragmentManager, false)
-//        answerSet.forEach { answer -> answer.card.disable() }
+        answersFragment.disableCards()
     }
 }

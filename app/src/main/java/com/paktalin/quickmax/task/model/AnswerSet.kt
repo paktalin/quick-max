@@ -1,5 +1,6 @@
 package com.paktalin.quickmax.task.model
 
+import android.content.Context
 import android.view.View
 import com.paktalin.quickmax.task.ui.AnswerCardView
 import kotlinx.android.synthetic.main.fragment_answers.view.*
@@ -25,11 +26,19 @@ class AnswerSet: Iterable<Answer> {
         setCorrectAnswer()
     }
 
+    fun setOnCheckedChangeListener(onChecked: (answer: Answer) -> Unit) {
+        answers.forEach { answer ->
+            answer.card.setOnCheckedChangeListener { _, isChecked -> if (isChecked) onChecked(answer) }
+        }
+    }
+
+    fun setInitialStyle(context: Context) {
+        answers.forEach { answer -> answer.card.initial(context, answer.value) }
+    }
+
     private fun setCorrectAnswer() {
         val correctAnswerNum = findSecondMax(answers.map { answer -> answer.value })
-        answers.forEach { answer ->
-            answer.correct = answer.value == correctAnswerNum
-        }
+        answers.find { answer -> answer.value == correctAnswerNum }!!.correct = true
     }
 
     override fun iterator(): Iterator<Answer> {
