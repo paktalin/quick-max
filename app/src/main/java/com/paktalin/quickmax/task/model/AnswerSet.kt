@@ -2,28 +2,33 @@ package com.paktalin.quickmax.task.model
 
 import com.paktalin.quickmax.task.ui.AnswerCardView
 
-class AnswerSet(numDigits: Int, cards: List<AnswerCardView>): Iterable<Answer> {
-    private val numAnswers = 4
+private const val NUM_ANSWERS = 4
+
+class AnswerSet: Iterable<Answer> {
     private lateinit var correctAnswer: Answer
 
     val answers: MutableList<Answer> = mutableListOf()
-    init {
-        val randomNumbers =
-            generateNRandomNumbers(numDigits, numAnswers)
-        for (i in 0 until numAnswers)
-            answers.add(
-                Answer(
-                    cards[i],
-                    randomNumbers.elementAt(i)
-                )
-            )
 
-        val correctAnswerNum =
-            findSecondMax(answers.map { answer -> answer.value })
-        answers.forEach { n ->
-            n.correct = n.value == correctAnswerNum
-            if (n.correct)
-                correctAnswer = n
+    constructor(numDigits: Int, cards: List<AnswerCardView>) {
+        val randomNumbers = generateNRandomNumbers(numDigits, NUM_ANSWERS)
+        for (i in 0 until NUM_ANSWERS)
+            answers.add(Answer(cards[i], randomNumbers.elementAt(i)))
+        setCorrectAnswer()
+    }
+
+    constructor(answerValues: IntArray, cards: List<AnswerCardView>) {
+        for (i in answerValues.indices)
+            answers.add(Answer(cards[i], answerValues[i]))
+        setCorrectAnswer()
+    }
+
+    private fun setCorrectAnswer() {
+        val correctAnswerNum = findSecondMax(answers.map { answer -> answer.value })
+        answers.forEach { answer ->
+            if (answer.value == correctAnswerNum) {
+                answer.correct
+                correctAnswer = answer
+            }
         }
     }
 

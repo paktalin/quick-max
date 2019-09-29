@@ -35,11 +35,7 @@ class TaskActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState != null) {
-            timerFragment = supportFragmentManager.getFragment(
-                savedInstanceState,
-                "timer_fragment"
-            ) as TimerFragment
-            answersFragment = supportFragmentManager.getFragment(savedInstanceState, "answers_fragment") as AnswersFragment
+            restoreState(savedInstanceState)
         } else {
             retrieveExtras()
             timerFragment = TimerFragment()
@@ -54,7 +50,6 @@ class TaskActivity : AppCompatActivity() {
             }
             startNewRound()
         }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -69,6 +64,14 @@ class TaskActivity : AppCompatActivity() {
         timerFragment.startNewRound()
         answersFragment.startNewRound()
         removeButtonNextFragment(supportFragmentManager)
+    }
+
+    private fun restoreState(savedInstanceState: Bundle) {
+        timerFragment = supportFragmentManager.getFragment(
+            savedInstanceState,
+            "timer_fragment"
+        ) as TimerFragment
+        answersFragment = supportFragmentManager.getFragment(savedInstanceState, "answers_fragment") as AnswersFragment
     }
 
     private fun retrieveExtras() {

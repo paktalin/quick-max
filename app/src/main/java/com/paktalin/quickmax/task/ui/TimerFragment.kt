@@ -98,20 +98,6 @@ class TimerFragment : Fragment() {
         colorAnimation?.cancel()
     }
 
-    private fun setResult() {
-        if (isAdded) {
-            mView.tv_response
-                .apply { text = "" }
-                .apply { setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSmall(resources)) }
-                .apply { text = state.response }
-        }
-    }
-
-    private val setBackgroundFilter = { color: Int ->
-        if (isAdded) mView.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-    }
-
-
     private fun restoreState(savedInstanceState: Bundle) {
         state = State.valueOf(savedInstanceState.getString(KEY_STATE)!!)
         millisToSolve = savedInstanceState.getLong(KEY_MILLIS_TO_SOLVE)
@@ -123,6 +109,19 @@ class TimerFragment : Fragment() {
             setResult()
             setBackgroundFilter(colorFrom)
         }
+    }
+
+    private fun setResult() {
+        if (isAdded) {
+            mView.tv_response
+                .apply { text = "" }
+                .apply { setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSmall(resources)) }
+                .apply { text = state.response }
+        }
+    }
+
+    private val setBackgroundFilter = { color: Int ->
+        if (isAdded) mView.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
     }
 
     private fun initTimer(toSolve: Long): CountDownTimer {

@@ -17,6 +17,8 @@ class AnswersFragment : Fragment() {
     private var numDigits: Int = 0
     private var isReady: Boolean = false
 
+    private lateinit var cards: List<AnswerCardView>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         numDigits = arguments!!.getInt("num_digits")
@@ -29,29 +31,42 @@ class AnswersFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_answers, container, false)
         mView = view
+
+        cards = listOf(
+            mView.card_left_top,
+            mView.card_right_top,
+            mView.card_left_bottom,
+            mView.card_right_bottom
+        )
+
+        if (savedInstanceState != null)
+            restoreState(savedInstanceState)
+        else {
+            answerSet = AnswerSet(numDigits, cards)
+            startNewRound()
+        }
         isReady = true
         startNewRound()
         return view
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putIntArray("answers", answerSet.answers.map { answer -> answer.value }.toIntArray())
+    }
+
     fun startNewRound() {
         if (isReady) {
-            answerSet = AnswerSet(
-                numDigits,
-                listOf(
-                    mView.card_left_top,
-                    mView.card_right_top,
-                    mView.card_left_bottom,
-                    mView.card_right_bottom
-                )
-            )
             answerSet.forEach { answer ->
-                answer.card.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) processAnswer(answer)
-                }
-                answer.card.initial(context!!, answer.value)
+                answer.card
+                    .apply { setOnCheckedChangeListener { _, isChecked -> if (isChecked) processAnswer(answer) } }
+                    .apply { initial(context!!, answer.value) }
             }
         }
+    }
+
+    private fun restoreState(savedInstanceState: Bundle) {
+        answerSet = AnswerSet(savedInstanceState.getIntArray("answers")!!, cards)
     }
 
     private fun processAnswer(answer: Answer) {
