@@ -1,12 +1,15 @@
-package com.paktalin.quickmax
+package com.paktalin.quickmax.task.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.paktalin.quickmax.answers.Answer
-import com.paktalin.quickmax.answers.AnswerSet
+import com.paktalin.quickmax.MainActivity
+import com.paktalin.quickmax.R
+import com.paktalin.quickmax.addButtonNextFragment
+import com.paktalin.quickmax.removeButtonNextFragment
+import com.paktalin.quickmax.task.model.Answer
+import com.paktalin.quickmax.task.model.AnswerSet
 import kotlinx.android.synthetic.main.activity_task.*
 
 // TODO save state

@@ -1,7 +1,7 @@
 package com.paktalin.quickmax
 
-import com.paktalin.quickmax.answers.AnswerSet
-import com.paktalin.quickmax.answers.findSecondMax
+import com.paktalin.quickmax.task.model.AnswerSet
+import com.paktalin.quickmax.task.model.findSecondMax
 import org.junit.Test
 
 import org.junit.Assert.*

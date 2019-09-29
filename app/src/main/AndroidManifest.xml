@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-        <activity android:name="com.paktalin.quickmax.TaskActivity">
+        <activity android:name="com.paktalin.quickmax.task.ui.TaskActivity">
         </activity>
         <activity android:name="com.paktalin.quickmax.MainActivity">
             <intent-filter>

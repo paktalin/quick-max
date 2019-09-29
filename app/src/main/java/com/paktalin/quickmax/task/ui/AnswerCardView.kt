@@ -1,10 +1,13 @@
-package com.paktalin.quickmax
+package com.paktalin.quickmax.task.ui
 
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
+import com.paktalin.quickmax.R
+import com.paktalin.quickmax.color
+import com.paktalin.quickmax.getTextView
 
 class AnswerCardView : MaterialCardView {
 

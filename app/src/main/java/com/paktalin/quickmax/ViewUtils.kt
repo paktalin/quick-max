@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.google.android.material.card.MaterialCardView
+import com.paktalin.quickmax.task.ui.ButtonNextFragment
 
 fun getTextView(card: View): TextView {
     return  ((card as MaterialCardView).getChildAt(0) as FrameLayout).getChildAt(0) as TextView

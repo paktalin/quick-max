@@ -3,9 +3,9 @@ package com.paktalin.quickmax
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
+import com.paktalin.quickmax.task.ui.TaskActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

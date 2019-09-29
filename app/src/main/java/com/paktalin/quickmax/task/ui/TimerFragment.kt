@@ -1,4 +1,4 @@
-package com.paktalin.quickmax
+package com.paktalin.quickmax.task.ui
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
@@ -12,6 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.paktalin.quickmax.R
+import com.paktalin.quickmax.color
+import com.paktalin.quickmax.textSize
 
 private const val interval: Long = 1000
 
@@ -60,6 +63,9 @@ class TimerFragment : Fragment() {
         if (state == State.IN_PROGRESS) {
             initTimer()
             initColorAnimation()
+        } else {
+            setResult()
+            setBackgroundFilter(colorFrom)
         }
         return view
     }
@@ -73,12 +79,11 @@ class TimerFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(KEY_STATE, state.name)
-
-        if (state == State.IN_PROGRESS)
-            outState.putLong(KEY_MILLIS_TO_SOLVE, millisToSolve)
+        outState.putLong(KEY_MILLIS_TO_SOLVE, millisToSolve)
+        // try to update colorFrom from animation
         colorAnimation?.let { animator ->
             animator.animatedValue?.let {
-                    value -> colorFrom = value as Int
+                value -> colorFrom = value as Int
             }
         }
         outState.putInt(KEY_COLOR_FROM, colorFrom)
@@ -92,7 +97,9 @@ class TimerFragment : Fragment() {
 
     private fun setResult() {
         if (isAdded) {
-            tvResponse.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize(resources))
+            tvResponse.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                textSize(resources)
+            )
             tvResponse.text = state.response
         }
     }
@@ -103,12 +110,7 @@ class TimerFragment : Fragment() {
     private fun restoreState(savedInstanceState: Bundle) {
         state = State.valueOf(savedInstanceState.getString(KEY_STATE)!!)
         colorFrom = savedInstanceState.getInt(KEY_COLOR_FROM)
-        if (state == State.IN_PROGRESS) {
-            millisToSolve = savedInstanceState.getLong(KEY_MILLIS_TO_SOLVE)
-        } else {
-            setResult()
-            setBackgroundFilter(colorFrom)
-        }
+        millisToSolve = savedInstanceState.getLong(KEY_MILLIS_TO_SOLVE, 0)
     }
 
     private fun initTimer() {
@@ -127,7 +129,8 @@ class TimerFragment : Fragment() {
     }
 
     private fun initColorAnimation() {
-        val colorTo = color(context!!, R.color.transparent_red)
+        val colorTo =
+            color(context!!, R.color.transparent_red)
         colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
             .apply { duration = millisToSolve }
         colorAnimation?.addUpdateListener { animator ->
