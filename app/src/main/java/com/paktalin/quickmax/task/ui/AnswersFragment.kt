@@ -17,8 +17,6 @@ class AnswersFragment : Fragment() {
     private var numDigits: Int = 0
     private var isReady: Boolean = false
 
-    private lateinit var cards: List<AnswerCardView>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         numDigits = arguments!!.getInt("num_digits")
@@ -32,19 +30,10 @@ class AnswersFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_answers, container, false)
         mView = view
 
-        cards = listOf(
-            mView.card_left_top,
-            mView.card_right_top,
-            mView.card_left_bottom,
-            mView.card_right_bottom
-        )
-
         if (savedInstanceState != null)
             restoreState(savedInstanceState)
-        else {
-            answerSet = AnswerSet(numDigits, cards)
-            startNewRound()
-        }
+        else
+            answerSet = AnswerSet(numDigits, mView)
         isReady = true
         startNewRound()
         return view
@@ -66,7 +55,8 @@ class AnswersFragment : Fragment() {
     }
 
     private fun restoreState(savedInstanceState: Bundle) {
-        answerSet = AnswerSet(savedInstanceState.getIntArray("answers")!!, cards)
+        val restoredAnswers = savedInstanceState.getIntArray("answers")!!
+        answerSet = AnswerSet(restoredAnswers, mView)
     }
 
     private fun processAnswer(answer: Answer) {
