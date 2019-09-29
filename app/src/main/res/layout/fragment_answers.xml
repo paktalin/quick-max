@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.paktalin.quickmax.task.ui.AnswerCardView
+        android:id="@+id/card_left_top"
+        style="@style/MyCard"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/card_left_bottom"
+        app:layout_constraintEnd_toStartOf="@+id/card_right_top"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView style="@style/AnswerCardText" />
+
+    </com.paktalin.quickmax.task.ui.AnswerCardView>
+
+    <com.paktalin.quickmax.task.ui.AnswerCardView
+        android:id="@+id/card_right_top"
+        style="@style/MyCard"
+        app:layout_constraintBottom_toTopOf="@id/card_right_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/card_left_top"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView style="@style/AnswerCardText" />
+
+    </com.paktalin.quickmax.task.ui.AnswerCardView>
+
+    <com.paktalin.quickmax.task.ui.AnswerCardView
+        android:id="@+id/card_left_bottom"
+        style="@style/MyCard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/card_right_bottom"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_left_top">
+
+        <TextView style="@style/AnswerCardText" />
+
+    </com.paktalin.quickmax.task.ui.AnswerCardView>
+
+    <com.paktalin.quickmax.task.ui.AnswerCardView
+        android:id="@+id/card_right_bottom"
+        style="@style/MyCard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/card_left_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/card_right_top">
+
+        <TextView style="@style/AnswerCardText" />
+
+    </com.paktalin.quickmax.task.ui.AnswerCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

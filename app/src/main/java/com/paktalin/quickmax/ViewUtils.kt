@@ -36,6 +36,8 @@ fun addButtonNextFragment(supportFragmentManager: FragmentManager, correct: Bool
 
 fun removeButtonNextFragment(supportFragmentManager: FragmentManager) {
     supportFragmentManager.findFragmentByTag("btn_next_fragment")?.let {fragment ->
-        supportFragmentManager.commit(true) { remove(fragment) }
+        supportFragmentManager.commit(true) {
+            remove(fragment)
+        }
     }
 }

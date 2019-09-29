@@ -20,6 +20,7 @@ class TaskActivity : AppCompatActivity() {
     private var numDigits: Int = 3
 
     private lateinit var timerFragment: TimerFragment
+    private lateinit var answersFragment: AnswersFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +38,6 @@ class TaskActivity : AppCompatActivity() {
         if (savedInstanceState != null)
             timerFragment = supportFragmentManager.getFragment(savedInstanceState, "timer_fragment") as TimerFragment
         else {
-            timerFragment = TimerFragment().apply {
-                arguments = Bundle().apply { putLong("millis_to_solve", millisToSolve) }
-            }
             retrieveExtras()
             startNewRound()
         }
@@ -49,21 +47,21 @@ class TaskActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         supportFragmentManager.putFragment(outState, "timer_fragment", timerFragment!!)
         // TODO save selection
-        // TODO save animation state
-        // TODO save timer
-        // TODO save button next state
-        // TODO save
     }
 
     internal fun startNewRound() {
-        answerSet = AnswerSet(
-            numDigits,
-            listOf(card_left_top, card_right_top, card_left_bottom, card_right_bottom)
-        )
-        supportFragmentManager.commit(true) {
-            replace(R.id.fragment_timer, timerFragment, "timer_fragment")
+        timerFragment = TimerFragment().apply {
+            arguments = Bundle().apply { putLong("millis_to_solve", millisToSolve) }
         }
-        setUpCards()
+        supportFragmentManager.commit(true) {
+            replace(R.id.container_timer, timerFragment, "timer_fragment")
+        }
+        answersFragment = AnswersFragment().apply {
+            arguments = Bundle().apply { putInt("num_digits", numDigits) }
+        }
+        supportFragmentManager.commit(true) {
+            replace(R.id.container_answers, answersFragment, "answers_fragment")
+        }
         removeButtonNextFragment(supportFragmentManager)
     }
 
@@ -72,26 +70,14 @@ class TaskActivity : AppCompatActivity() {
         millisToSolve = 1000 * intent.getIntExtra("sec_to_solve", 4).toLong()
     }
 
-    private fun setUpCards() {
-        answerSet.forEach { answer ->
-            answer.card.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) processAnswer(answer)
-            }
-            answer.card.initial(this@TaskActivity, answer.value)
-        }
+    fun onResponseWrong() {
+        timerFragment.cancel(State.WRONG)
+        addButtonNextFragment(supportFragmentManager, false)
     }
 
-    private fun processAnswer(answer: Answer) {
-        if (answer.correct) {
-            answer.card.markCorrect(this@TaskActivity)
-            timerFragment.cancel(State.CORRECT)
-            addButtonNextFragment(supportFragmentManager, true)
-        } else {
-            answer.card.markWrong(this@TaskActivity)
-            timerFragment.cancel(State.WRONG)
-            addButtonNextFragment(supportFragmentManager, false)
-        }
-        answerSet.forEach { answer -> answer.card.disable() }
+    fun onResponseCorrect() {
+        timerFragment.cancel(State.CORRECT)
+        addButtonNextFragment(supportFragmentManager, true)
     }
 
     fun onTimeOver() {

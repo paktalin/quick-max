@@ -9,7 +9,7 @@
     tools:context="com.paktalin.quickmax.task.ui.TaskActivity">
 
     <FrameLayout
-        android:id="@+id/fragment_timer"
+        android:id="@+id/container_timer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -54,7 +54,7 @@ class TimerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.gradient_timer, container, false)
+        val view = inflater.inflate(R.layout.fragment_timer, container, false)
         mView = view
         tvResponse = mView.findViewById(R.id.tv_response)
 
